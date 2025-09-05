@@ -1,11 +1,13 @@
-import logo from "./logo.svg";
-import "./App.css";
+// import "./App.scss";
+import { BrowserRouter } from "react-router-dom";
+
+import UserRoute from "./routes/UserRoute";
 
 function App() {
   return (
-    <div className="App">
-      <h1> Xin chào các bạn </h1>
-    </div>
+    <BrowserRouter>
+      <UserRoute />
+    </BrowserRouter>
   );
 }
 
