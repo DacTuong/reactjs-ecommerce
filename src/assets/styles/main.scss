@@ -3,7 +3,7 @@
   background-color: blue;
 }
 
-.navbar-menu {
+.header__top {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -31,5 +31,14 @@
     display: block;
     width: 60px;
     background-color: white;
+  }
+}
+
+.product-box {
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 0px 5px 0px 5px !important;
+  .product-content {
+    border: 1px solid black;
   }
 }
