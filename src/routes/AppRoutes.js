@@ -10,6 +10,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import Home from "../pages/user/HomePage";
 import Cart from "../pages/user/CartPage";
 import LoginPage from "../pages/user/LoginPage";
+import CheckoutPage from "../pages/user/CheckoutPage";
 
 import LaptopsPage from "../pages/user/categories/LaptopsPage";
 import PhonesPage from "../pages/user/categories/PhonesPage";
@@ -33,6 +34,8 @@ const AppRoutes = () => {
       <Route element={<UserLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="checkout" element={<CheckoutPage />} />
+
         <Route path="/phones" element={<PhonesPage />} />
         <Route path="/laptops" element={<LaptopsPage />} />
         <Route path="/smartwatches" element={<SmartWatchesPage />} />
