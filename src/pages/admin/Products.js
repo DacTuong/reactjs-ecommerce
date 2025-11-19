@@ -5,7 +5,7 @@ const Products = () => {
   return (
     <div>
       <div>
-        <Link to="new-product">Thêm sản phẩm mới</Link>
+        <Link to="/admin/new-product">Thêm sản phẩm mới</Link>
       </div>
       <div>
         <h3>Danh sách sản phẩm</h3>

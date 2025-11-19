@@ -25,6 +25,8 @@ import TabletDetailPage from "../pages/user/product-detail/TabletDetailPage";
 import Dashboard from "../pages/admin/Dashboard";
 import Products from "../pages/admin/Products";
 import Orders from "../pages/admin/Orders";
+import AddProduct from "../pages/admin/AddProduct";
+import Brand from "../pages/admin/Brands";
 
 const AppRoutes = () => {
   return (
@@ -48,9 +50,11 @@ const AppRoutes = () => {
       </Route>
 
       {/* Admin Routes */}
-      <Route path="/admin" element={<AdminLayout />}>
+      <Route path="/admin/*" element={<AdminLayout />}>
         <Route index element={<Dashboard />} />
         <Route path="products" element={<Products />} />
+        <Route path="brands" element={<Brand />} />
+        <Route path="new-product" element={<AddProduct />} />
         <Route path="orders" element={<Orders />} />
       </Route>
     </Routes>

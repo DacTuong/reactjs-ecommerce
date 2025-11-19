@@ -1,7 +1,9 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/layout/Sidebar";
+
 import "../assets/styles/admincustom.scss"; // đường dẫn SCSS
+import "../assets/styles/admin.scss"; // đường dẫn SCSS
 
 const AdminLayout = () => {
   return (
@@ -9,8 +11,10 @@ const AdminLayout = () => {
       <div>
         <Sidebar />
       </div>
-      <div>
-        <Outlet />
+      <div className="wrap-admin">
+        <div className="page-inner">
+          <Outlet />
+        </div>
       </div>
     </div>
   );

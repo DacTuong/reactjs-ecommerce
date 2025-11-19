@@ -74,7 +74,54 @@
 .sidebar-text {
   font-size: 1em;
 }
+.navbar-cls-top {
+  display: none;
+}
+@media (max-width: 640px) {
+  .grid-admin {
+    flex-direction: column;
+  }
 
+  .navbar-cls-top {
+    display: block;
+    width: 100%;
+    background-color: red;
+  }
+  .navbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 10px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: #d1d5db; /* Lighter text color for inactive items */
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 8px; /* Slightly rounded corners */
+  }
+  .toggle-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 34px;
+    height: 34px;
+  }
+  .sidebar {
+    position: fixed;
+    height: auto;
+    top: -550px;
+  }
+
+  // .act-nav {
+  //   display: block;
+  //   position: fixed;
+  //   top: 0;
+  //   left: -250px;
+  // }
+}
 @media (min-width: 768px) {
   // #page-wrapper {
   //   margin: 0 0 0 260px;
