@@ -9,16 +9,16 @@ import Footer from "../components/layout/Footer";
 const UserLayout = () => {
   return (
     <div>
-      <header className="header">
+      <div className="header">
         <Navbar />
-      </header>
+      </div>
 
-      <main>
+      <div style={{ backgroundColor: "#f2f4f7" }}>
         <div className="container-xl">
           <Outlet />
           {/* Quan trọng: chỗ này sẽ render Home hoặc các page con */}
         </div>
-      </main>
+      </div>
 
       <footer>
         <Footer />
