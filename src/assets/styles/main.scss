@@ -210,3 +210,86 @@
     display: none;
   }
 }
+
+.product-panel {
+  padding: 10px 15px;
+  width: 100%;
+  .options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 6px;
+    .option-link {
+      padding: 8px 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #000;
+      font-size: 14px;
+      line-height: 1;
+      width: 68px;
+      border-color: #eaecf0;
+    }
+    .option-link.act {
+      background-color: rgba(76, 80, 216, 0.2);
+      border: 1px solid;
+      border-color: rgba(76, 80, 216, 0.2);
+    }
+  }
+  .colors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    .color-link {
+      padding: 6px 12px 6px 8px;
+      border-radius: 12px;
+      border: 1px solid;
+      border-color: #eaecf0;
+      color: #000;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .color-link.act {
+      background-color: rgba(76, 80, 216, 0.2);
+      border: 1px solid;
+      border-color: rgba(76, 80, 216, 0.2);
+      // background-color: #b02a37;
+    }
+  }
+  .box-price {
+    gap: 6px;
+    .price-sale {
+      font-size: 18px;
+      font-weight: bold;
+      color: red;
+    }
+    .price-original {
+      text-decoration: line-through;
+    }
+  }
+
+  .block-button {
+    display: flex;
+    gap: 10px;
+    .btn-add-cart {
+      background-color: transparent;
+      border: 1px solid;
+      border-color: blue;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .btn-buy-now {
+      background-color: blue;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

@@ -36,7 +36,7 @@ const AppRoutes = () => {
       <Route element={<UserLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="checkout" element={<CheckoutPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
 
         <Route path="/phones" element={<PhonesPage />} />
         <Route path="/laptops" element={<LaptopsPage />} />
