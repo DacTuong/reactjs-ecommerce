@@ -77,6 +77,52 @@
 .navbar-cls-top {
   display: none;
 }
+.information-product {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid;
+  border-color: black;
+  border-radius: 6px;
+}
+.form-groub {
+  width: 100%;
+  // background-color: red;
+  flex: 1;
+
+  label {
+    width: 100%;
+    display: block; // nên thêm để xuống dòng
+  }
+
+  input {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid;
+    height: 30px;
+  }
+
+  select {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 4px;
+  }
+
+  option {
+    width: 100%;
+  }
+}
+
+.flex-row {
+  display: flex;
+  gap: 20px;
+}
+.detail-product {
+  margin-top: 6px;
+  padding: 10px;
+  border: 1px solid;
+  border-color: black;
+}
+
 @media (max-width: 640px) {
   .grid-admin {
     flex-direction: column;
