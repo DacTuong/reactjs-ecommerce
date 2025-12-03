@@ -93,21 +93,18 @@ const AddProduct = () => {
           </div>
           <div className="form-groub">
             <label>Tên sản phẩm</label>
-
             <input type="text" id="product_name" className="" required />
           </div>
           <div className="form-groub">
             <label>Mã SKU</label>
-
             <input type="text" id="code_sku" className="" required />
           </div>
         </div>
-
         <div className="detail-product">
           <div className="phone">
             <h2>Nhập thông tin điện thoại</h2>
             {detailFields.map((field) => (
-              <div key={field.key}>
+              <div key={field.key} className="form-groub">
                 <lable>{field.label}</lable>
                 <input
                   value={product.details[field.key] || ""}
@@ -115,6 +112,28 @@ const AddProduct = () => {
                 ></input>
               </div>
             ))}
+          </div>
+        </div>
+        <div className="variant-product">
+          <h3>Thêm biến thể sản phẩm</h3>
+          <button onClick={addVariant}>Thêm biến thể</button>
+          <div>
+            <b>Biến thể</b>
+            <div className="form-groub">
+              <lable>Tên biến thể</lable>
+              <input />
+              <button>Thêm màu mới</button>
+              <div className="flex-row">
+                <div className="form-groub">
+                  <label>Tên màu sắc</label>
+                  <input />
+                </div>
+                <div className="form-groub">
+                  <label>Mã màu sắc</label>
+                  <input />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </form>
