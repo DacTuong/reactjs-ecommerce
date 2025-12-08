@@ -28,7 +28,32 @@ const CATEGORY_DETAIL_FIELDS = {
 };
 
 const AddProduct = () => {
-  const [product, setProduct] = useState({ category: "", details: {} });
+  const [product, setProduct] = useState({
+    product_code: "",
+    brand: "",
+    category: "",
+    product_name: "",
+    product_sku: "",
+    details: {},
+    variants: [
+      {
+        name_variant: "",
+        colors: {
+          color_name: "",
+          color_sku: "",
+        },
+      },
+    ],
+  });
+  const updateField = (key, value) => {
+    setProduct({ ...product, [key]: value });
+  };
+  const updateDetail = (key, value) => {
+    setProduct({
+      ...product,
+      details: { ...product.details, [key]: value },
+    });
+  };
   const handleChangeCategory = (e) => {
     const category = e.target.value;
     setProduct({
@@ -37,13 +62,11 @@ const AddProduct = () => {
       details: {},
     });
   };
-  const updateDetail = (key, value) => {
-    setProduct({
-      ...product,
-      details: { ...product.details, [key]: value },
-    });
-  };
   const detailFields = CATEGORY_DETAIL_FIELDS[product.category] || [];
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("DỮ LIỆU SẢN PHẨM:", product);
+  };
   return (
     <div>
       <h1>Trang thêm sản phẩm</h1>
@@ -55,17 +78,17 @@ const AddProduct = () => {
           <b>Thông tin chi tiết</b>
         </button>
       </div>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="information-product">
           <h1>Thông tin sản phẩm</h1>
           <div className="form-groub">
             <label>Mã sản phẩm</label>
 
             <input
-              type="email"
+              type="text"
               id="product_code"
-              value=""
-              onChange=""
+              value={product.product_code}
+              onChange={(e) => updateField("product_code", e.target.value)}
               className=""
               required
             />
@@ -93,11 +116,25 @@ const AddProduct = () => {
           </div>
           <div className="form-groub">
             <label>Tên sản phẩm</label>
-            <input type="text" id="product_name" className="" required />
+            <input
+              type="text"
+              id="product_name"
+              value={product.product_name}
+              onChange={(e) => updateField("product_name", e.target.value)}
+              className=""
+              required
+            />
           </div>
           <div className="form-groub">
             <label>Mã SKU</label>
-            <input type="text" id="code_sku" className="" required />
+            <input
+              type="text"
+              id="code_sku"
+              value={product.product_sku}
+              onChange={(e) => updateField("product_sku", e.target.value)}
+              className=""
+              required
+            />
           </div>
         </div>
         <div className="detail-product">
@@ -105,7 +142,7 @@ const AddProduct = () => {
             <h2>Nhập thông tin điện thoại</h2>
             {detailFields.map((field) => (
               <div key={field.key} className="form-groub">
-                <lable>{field.label}</lable>
+                <label>{field.label}</label>
                 <input
                   value={product.details[field.key] || ""}
                   onChange={(e) => updateDetail(field.key, e.target.value)}
@@ -116,11 +153,11 @@ const AddProduct = () => {
         </div>
         <div className="variant-product">
           <h3>Thêm biến thể sản phẩm</h3>
-          <button onClick={addVariant}>Thêm biến thể</button>
+          <button>Thêm biến thể</button>
           <div>
             <b>Biến thể</b>
             <div className="form-groub">
-              <lable>Tên biến thể</lable>
+              <label>Tên biến thể</label>
               <input />
               <button>Thêm màu mới</button>
               <div className="flex-row">
@@ -135,6 +172,10 @@ const AddProduct = () => {
               </div>
             </div>
           </div>
+        </div>
+
+        <div>
+          <button type="submit">Lưu sản phẩm</button>
         </div>
       </form>
     </div>
