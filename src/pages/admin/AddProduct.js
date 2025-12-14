@@ -1,31 +1,40 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GeneralInfo from "../../components/admin/product/GeneralInfo";
 import DetailProduct from "../../components/admin/product/DetailProduct";
+const brands = [
+  { id: 1, idcate: 1, brand: "samsung" },
+  { id: 2, idcate: 1, brand: "xiaomi" },
+  { id: 3, idcate: 2, brand: "samssung" },
+  { id: 4, idcate: 2, brand: "xiaomii" },
+  { id: 5, idcate: 3, brand: "Spple" },
+  { id: 6, idcate: 3, brand: "SPSP" },
+  { id: 7, idcate: 4, brand: "Spple" },
+];
 const CATEGORY_FIELDS = [
   {
     id: 1,
-    value: "phone",
+    value: 1,
     name: "điện thoại",
   },
   {
     id: 2,
-    value: "laptop",
+    value: 2,
     name: "Laptop",
   },
   {
     id: 3,
-    value: "watch",
+    value: 3,
     name: "Đồng hồ",
   },
   {
     id: 4,
-    value: "tablet",
+    value: 4,
     name: "Máy tính bảng",
   },
 ];
 
 const CATEGORY_DETAIL_FIELDS = {
-  phone: [
+  1: [
     { key: "screen", label: "Màn hình" },
     { key: "cpu", label: "CPU" },
     { key: "ram", label: "RAM" },
@@ -33,7 +42,7 @@ const CATEGORY_DETAIL_FIELDS = {
     { key: "battery", label: "Pin" },
     { key: "camera", label: "Camera" },
   ],
-  laptop: [
+  2: [
     { key: "cpu", label: "CPU" },
     { key: "gpu", label: "GPU" },
     { key: "ram", label: "RAM" },
@@ -41,12 +50,12 @@ const CATEGORY_DETAIL_FIELDS = {
     { key: "screen", label: "Màn hình" },
     { key: "battery", label: "Pin" },
   ],
-  tablet: [
+  3: [
     { key: "screen", label: "Màn hình" },
     { key: "battery", label: "Pin" },
     { key: "storage", label: "Bộ nhớ" },
   ],
-  accessory: [
+  4: [
     { key: "material", label: "Chất liệu" },
     { key: "compatibility", label: "Tương thích" },
   ],
@@ -56,7 +65,7 @@ const AddProduct = () => {
   const [product, setProduct] = useState({
     product_code: "",
     brand: "",
-    category: "phone",
+    category: 1,
     product_name: "",
     product_sku: "",
     details: {},
@@ -70,16 +79,25 @@ const AddProduct = () => {
       },
     ],
   });
+  // phần xứ lý thay đổi nhập thông tin chi tiết theo loại sản phẩm
+  const detailFields = CATEGORY_DETAIL_FIELDS[product.category] || [];
   const handleChangeCategory = (e) => {
-    const category = e.target.value;
+    const category = Number(e.target.value);
     setProduct({
       ...product,
+      brand: "",
       category: category,
       details: {},
     });
   };
-  const detailFields = CATEGORY_DETAIL_FIELDS[product.category] || [];
 
+  // Phần xữ lý thay đổi thương hiệu theo loại sản phẩm
+  const [filteredBrands, setFilteredBrands] = useState([]);
+  useEffect(() => {
+    const results = brands.filter((brand) => brand.idcate === product.category);
+    setFilteredBrands(results);
+  }, [product.category]);
+  // Phần xữ lý lấy tất cả các thông tin của sản phẩm
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("DỮ LIỆU SẢN PHẨM:", product);
@@ -98,6 +116,7 @@ const AddProduct = () => {
       <form onSubmit={handleSubmit}>
         <GeneralInfo
           product={product}
+          filteredBrands={filteredBrands}
           setProduct={setProduct}
           categories={CATEGORY_FIELDS}
           handleChangeCategory={handleChangeCategory}

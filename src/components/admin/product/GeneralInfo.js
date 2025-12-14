@@ -5,6 +5,7 @@ const GeneralInfo = ({
   setProduct,
   categories,
   handleChangeCategory,
+  filteredBrands,
 }) => {
   return (
     <div className="information-product">
@@ -24,8 +25,18 @@ const GeneralInfo = ({
       </div>
       <div className="flex-row">
         <div className="form-groub">
-          <label>Thương hiệu</label>
+          <label>Loại sản phẩm</label>
 
+          <select value={product.category} onChange={handleChangeCategory}>
+            {categories.map((cate) => (
+              <option key={cate.id} value={cate.value}>
+                {cate.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-groub">
+          <label>Thương hiệu</label>
           <select
             value={product.brand}
             onChange={(e) =>
@@ -35,17 +46,9 @@ const GeneralInfo = ({
               })
             }
           >
-            <option>Samsung</option>
-            <option>Apple</option>
-          </select>
-        </div>
-        <div className="form-groub">
-          <label>Loại sản phẩm</label>
-
-          <select value={product.category} onChange={handleChangeCategory}>
-            {categories.map((cate) => (
-              <option key={cate.id} value={cate.value}>
-                {cate.name}
+            {filteredBrands.map((brand) => (
+              <option key={brand.id} value={brand.id}>
+                {brand.brand}
               </option>
             ))}
           </select>
