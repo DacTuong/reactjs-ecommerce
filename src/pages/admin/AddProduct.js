@@ -72,10 +72,12 @@ const AddProduct = () => {
     variants: [
       {
         name_variant: "",
-        colors: {
-          color_name: "",
-          color_sku: "",
-        },
+        colors: [
+          {
+            color_name: "",
+            color_sku: "",
+          },
+        ],
       },
     ],
   });
@@ -97,6 +99,39 @@ const AddProduct = () => {
     const results = brands.filter((brand) => brand.idcate === product.category);
     setFilteredBrands(results);
   }, [product.category]);
+
+  //Phần xữ lý thêm variant
+  const addVariant = () => {
+    setProduct({
+      ...product,
+      variants: [
+        ...product.variants,
+        { name_variant: "", colors: [{ color_name: "", color_sku: "" }] },
+      ],
+    });
+  };
+
+  //Phần xữ lý cập nhất lại thông tin của variant
+  const updateVariant = (index, value) => {
+    const newVariants = [...product.variants];
+    newVariants[index].name_variant = value;
+    setProduct({
+      ...product,
+      variants: newVariants,
+    });
+  };
+  //Phần xữ lý thêm color variant
+  const addColor = (varianIndex) => {
+    const newColor = [...product.variants];
+    newColor[varianIndex].colors.push({
+      color_name: "",
+      color_sku: "",
+    });
+    setProduct({
+      ...product,
+      variants: newColor,
+    });
+  };
   // Phần xữ lý lấy tất cả các thông tin của sản phẩm
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -131,7 +166,29 @@ const AddProduct = () => {
         </div>
         <div className="variant-product">
           <h3>Thêm biến thể sản phẩm</h3>
-          <button>Thêm biến thể</button>
+          <button onClick={addVariant}>Thêm biến thể</button>
+          {product.variants.map((variant, vIndex) => (
+            <div key={vIndex} className="variant-box">
+              <label>Tên biến thể</label>
+              <input
+                value={variant.name_variant}
+                onChange={(e) => updateVariant(vIndex, e.target.value)}
+              />
+
+              <button type="button" onClick={() => addColor(vIndex)}>
+                Thêm màu mới
+              </button>
+              {/* HIỂN THỊ DANH SÁCH MÀU */}
+              {variant.colors.map((color, cIndex) => (
+                <div className="flex-row">
+                  <div className="form-groub">
+                    <label>Thêm</label>
+                    <input></input>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))}
         </div>
 
         <div>
