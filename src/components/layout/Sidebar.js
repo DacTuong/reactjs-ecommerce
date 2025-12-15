@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
+  const [open, setOpen] = useState(false);
   return (
     <div>
       <nav className="navbar-cls-top">
@@ -61,14 +62,28 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className="nav-item">
-            <Link to="/admin/brands" className="nav-link">
+            {/* Tiêu đề menu */}
+            <div
+              className="nav-link"
+              onClick={() => setOpen(!open)}
+              style={{ cursor: "pointer" }}
+            >
               <img
                 className="icon-nav"
                 src="https://www.svgrepo.com/show/497148/money-transfer.svg"
                 alt="Transactions Icon"
               />
               <span className="sidebar-text">Thương hiệu</span>
-            </Link>
+              <span className={`arrow ${open ? "rotate" : ""}`}>▾</span>
+            </div>
+
+            {/* Menu xổ xuống */}
+            {open && (
+              <div className="sub-menu">
+                <Link to="/admin/new-brand">Thêm thương hiệu mới</Link>
+                <Link to="/admin/brands">Danh sách thương hiệu</Link>
+              </div>
+            )}
           </div>
           <div className="nav-item">
             <a href="#" className="nav-link">

@@ -132,6 +132,16 @@ const AddProduct = () => {
       variants: newColor,
     });
   };
+
+  // Phần xữ lý cập nhật và nhận value của variant color
+  const updateColor = (variantIndex, colorIndex, key, value) => {
+    const updateColor = [...product.variants];
+    updateColor[variantIndex].colors[colorIndex][key] = value;
+    setProduct({
+      ...product,
+      variants: updateColor,
+    });
+  };
   // Phần xữ lý lấy tất cả các thông tin của sản phẩm
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -169,6 +179,7 @@ const AddProduct = () => {
           <button onClick={addVariant}>Thêm biến thể</button>
           {product.variants.map((variant, vIndex) => (
             <div key={vIndex} className="variant-box">
+              <b>Biến thể số {vIndex}</b>
               <label>Tên biến thể</label>
               <input
                 value={variant.name_variant}
@@ -180,10 +191,30 @@ const AddProduct = () => {
               </button>
               {/* HIỂN THỊ DANH SÁCH MÀU */}
               {variant.colors.map((color, cIndex) => (
-                <div className="flex-row">
+                <div className="flex-row" key={cIndex}>
+                  <h3>Màu sắc số {cIndex}</h3>
                   <div className="form-groub">
-                    <label>Thêm</label>
-                    <input></input>
+                    <label>Tên màu sắc</label>
+                    <input
+                      value={color.color_name}
+                      onChange={(e) =>
+                        updateColor(
+                          vIndex,
+                          cIndex,
+                          "color_name",
+                          e.target.value
+                        )
+                      }
+                    ></input>
+                  </div>
+                  <div className="form-groub">
+                    <label>Mã SKU</label>
+                    <input
+                      value={color.color_sku}
+                      onChange={(e) =>
+                        updateColor(vIndex, cIndex, "color_sku", e.target.value)
+                      }
+                    ></input>
                   </div>
                 </div>
               ))}

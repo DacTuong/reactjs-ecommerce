@@ -27,6 +27,7 @@ import Products from "../pages/admin/Products";
 import Orders from "../pages/admin/Orders";
 import AddProduct from "../pages/admin/AddProduct";
 import Brand from "../pages/admin/Brands";
+import AddNewBrand from "../pages/admin/AddNewBrand";
 
 const AppRoutes = () => {
   return (
@@ -54,6 +55,7 @@ const AppRoutes = () => {
         <Route index element={<Dashboard />} />
         <Route path="products" element={<Products />} />
         <Route path="brands" element={<Brand />} />
+        <Route path="new-brand" element={<AddNewBrand />} />
         <Route path="new-product" element={<AddProduct />} />
         <Route path="orders" element={<Orders />} />
       </Route>

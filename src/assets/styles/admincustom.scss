@@ -29,7 +29,30 @@
   border-radius: 8px; /* Slightly rounded corners */
   margin: 0 10px; /* Space from the edges */
 }
+.sub-menu {
+  padding-left: 40px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+}
+.sub-menu a {
+  padding: 6px 0;
+  color: #555;
+  text-decoration: none;
+}
 
+.sub-menu a:hover {
+  color: #fff;
+}
+
+.arrow {
+  margin-left: auto;
+  transition: transform 0.3s;
+}
+
+.arrow.rotate {
+  transform: rotate(180deg);
+}
 .nav-item.brand .nav-link {
   color: #ffffff; /* White for the brand text */
   font-weight: bold;
@@ -99,6 +122,7 @@
     border-radius: 4px;
     border: 1px solid;
     height: 30px;
+    padding-left: 5px;
   }
 
   select {
