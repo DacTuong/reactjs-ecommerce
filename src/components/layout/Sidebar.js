@@ -86,14 +86,25 @@ const Sidebar = () => {
             )}
           </div>
           <div className="nav-item">
-            <a href="#" className="nav-link">
+            <div
+              className="nav-link"
+              onClick={() => setOpen(!open)}
+              style={{ cursor: "pointer" }}
+            >
               <img
                 className="icon-nav"
                 src="https://www.svgrepo.com/show/497144/settings.svg"
                 alt="Settings Icon"
               />
-              <span className="sidebar-text">Reports</span>
-            </a>
+              <span className="sidebar-text">Quản lý mối quan hệ</span>
+              <span className={`arrow ${open ? "rotate" : ""}`}>▾</span>
+            </div>
+            {open && (
+              <div className="sub-menu">
+                <Link to="/admin/brand-categories">Danh sách mối quan hệ</Link>
+                <Link to="/admin/brand-categories/create">Gắn mối quan hệ</Link>
+              </div>
+            )}
           </div>
           <div className="nav-item">
             <a href="#" className="nav-link">

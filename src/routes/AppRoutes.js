@@ -23,11 +23,13 @@ import TabletDetailPage from "../pages/user/product-detail/TabletDetailPage";
 
 // Admin Pages
 import Dashboard from "../pages/admin/Dashboard";
-import Products from "../pages/admin/Products";
+import Products from "../pages/admin/products/Products";
 import Orders from "../pages/admin/Orders";
-import AddProduct from "../pages/admin/AddProduct";
-import Brand from "../pages/admin/Brands";
-import AddNewBrand from "../pages/admin/AddNewBrand";
+import AddProduct from "../pages/admin/products/AddProduct";
+import Brand from "../pages/admin/brands/Brands";
+import AddNewBrand from "../pages/admin/brands/AddNewBrand";
+import AssignBrandToCategory from "../pages/admin/brand-categories/AssignBrandToCategory";
+import AddBrandCategories from "../pages/admin/brand-categories/AddBrandCategories";
 
 const AppRoutes = () => {
   return (
@@ -58,6 +60,11 @@ const AppRoutes = () => {
         <Route path="new-brand" element={<AddNewBrand />} />
         <Route path="new-product" element={<AddProduct />} />
         <Route path="orders" element={<Orders />} />
+        <Route path="brand-categories" element={<AssignBrandToCategory />} />
+        <Route
+          path="brand-categories/create"
+          element={<AddBrandCategories />}
+        />
       </Route>
     </Routes>
   );

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import GeneralInfo from "../../components/admin/product/GeneralInfo";
-import DetailProduct from "../../components/admin/product/DetailProduct";
+import DetailProduct from "../../../components/admin/products/DetailProduct";
+import GeneralInfo from "../../../components/admin/products/GeneralInfo";
+
 const brands = [
   { id: 1, idcate: 1, brand: "samsung" },
   { id: 2, idcate: 1, brand: "xiaomi" },
