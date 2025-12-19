@@ -124,16 +124,23 @@ const AddProduct = () => {
   //Phần xữ lý thêm color variant
   const addColor = (varianIndex) => {
     const newColor = [...product.variants];
-    newColor[varianIndex].colors.push({
-      color_name: "",
-      color_sku: "",
-    });
+    newColor[varianIndex] = {
+      ...newColor[varianIndex],
+      colors: [
+        ...newColor[varianIndex].colors,
+        {
+          color_name: "",
+          color_sku: "",
+        },
+      ],
+    };
     setProduct({
       ...product,
       variants: newColor,
     });
   };
-
+  // xữ lý phần xóa từng cái trong varian
+  const removeItem = (key, id, value) => {};
   // Phần xữ lý cập nhật và nhận value của variant color
   const updateColor = (variantIndex, colorIndex, key, value) => {
     const updateColor = [...product.variants];
@@ -143,44 +150,58 @@ const AddProduct = () => {
       variants: updateColor,
     });
   };
+  // Phần thay đổi tab trên trang mặc định là general
+  const [tab, setTab] = useState("general");
+
   // Phần xữ lý lấy tất cả các thông tin của sản phẩm
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("DỮ LIỆU SẢN PHẨM:", product);
   };
+
   return (
     <div>
       <h1>Trang thêm sản phẩm</h1>
       <div className="tab-button">
-        <button>
+        <button onClick={() => setTab("general")}>
           <b>Thông tin chung</b>
         </button>
-        <button>
+        <button onClick={() => setTab("detail")}>
           <b>Thông tin chi tiết</b>
         </button>
       </div>
       <form onSubmit={handleSubmit}>
-        <GeneralInfo
-          product={product}
-          filteredBrands={filteredBrands}
-          setProduct={setProduct}
-          categories={CATEGORY_FIELDS}
-          handleChangeCategory={handleChangeCategory}
-        />
-
-        <div className="detail-product">
-          <DetailProduct
+        {/* thay đổi tab general trên trang add product */}
+        {tab === "general" && (
+          <GeneralInfo
             product={product}
+            filteredBrands={filteredBrands}
             setProduct={setProduct}
-            detailFields={detailFields}
+            categories={CATEGORY_FIELDS}
+            handleChangeCategory={handleChangeCategory}
           />
-        </div>
+        )}
+        {/* thay đổi tab detail trên trang add product */}
+        {tab === "detail" && (
+          <div className="detail-product">
+            <DetailProduct
+              product={product}
+              setProduct={setProduct}
+              detailFields={detailFields}
+            />
+          </div>
+        )}
         <div className="variant-product">
           <h3>Thêm biến thể sản phẩm</h3>
-          <button onClick={addVariant}>Thêm biến thể</button>
+          <button onClick={addVariant} type="button">
+            Thêm biến thể
+          </button>
           {product.variants.map((variant, vIndex) => (
             <div key={vIndex} className="variant-box">
-              <b>Biến thể số {vIndex}</b>
+              <div className="flex-row">
+                <b>Biến thể số {vIndex}</b>
+                <button>Xóa biến thể</button>
+              </div>
               <label>Tên biến thể</label>
               <input
                 value={variant.name_variant}
@@ -192,30 +213,40 @@ const AddProduct = () => {
               </button>
               {/* HIỂN THỊ DANH SÁCH MÀU */}
               {variant.colors.map((color, cIndex) => (
-                <div className="flex-row" key={cIndex}>
+                <div className="" key={cIndex}>
                   <h3>Màu sắc số {cIndex}</h3>
-                  <div className="form-groub">
-                    <label>Tên màu sắc</label>
-                    <input
-                      value={color.color_name}
-                      onChange={(e) =>
-                        updateColor(
-                          vIndex,
-                          cIndex,
-                          "color_name",
-                          e.target.value
-                        )
-                      }
-                    ></input>
-                  </div>
-                  <div className="form-groub">
-                    <label>Mã SKU</label>
-                    <input
-                      value={color.color_sku}
-                      onChange={(e) =>
-                        updateColor(vIndex, cIndex, "color_sku", e.target.value)
-                      }
-                    ></input>
+                  <div className="flex-row">
+                    <div className="form-groub">
+                      <div className="flex-row">
+                        <label>Tên màu sắc</label>
+                        <button>Xóa</button>
+                      </div>
+                      <input
+                        value={color.color_name}
+                        onChange={(e) =>
+                          updateColor(
+                            vIndex,
+                            cIndex,
+                            "color_name",
+                            e.target.value
+                          )
+                        }
+                      ></input>
+                    </div>
+                    <div className="form-groub">
+                      <label>Mã SKU</label>
+                      <input
+                        value={color.color_sku}
+                        onChange={(e) =>
+                          updateColor(
+                            vIndex,
+                            cIndex,
+                            "color_sku",
+                            e.target.value
+                          )
+                        }
+                      ></input>
+                    </div>
                   </div>
                 </div>
               ))}

@@ -135,7 +135,14 @@
     width: 100%;
   }
 }
+.variant-box {
+  margin-top: 10px;
+  border: 1px solid;
+  border-color: #2c3e50;
 
+  padding: 5px 10px;
+  border-radius: 6px;
+}
 .flex-row {
   display: flex;
   gap: 20px;
