@@ -37,12 +37,20 @@ const AddBrandCategories = () => {
   const AddBrand = () => {
     setSelectedBrands([...selectedBrands, ""]);
   };
-  const handleChangeBrand = (index, value) => {
+  const handleChangeBrand = (bIndex, value) => {
     const newBrand = [...selectedBrands];
-    newBrand[index] = value;
+    newBrand[bIndex] = value;
     setSelectedBrands(newBrand);
   };
 
+  const removeCategoryBrand = (bIndex) => {
+    if (selectedBrands.length === 1) {
+      alert("Phải có ít nhất một tên thương hiệu");
+      return;
+    }
+    const newBrand = selectedBrands.filter((_, index) => index !== bIndex);
+    setSelectedBrands(newBrand);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -73,12 +81,17 @@ const AddBrandCategories = () => {
         <button onClick={AddBrand} type="button">
           Thêm thương hiệu
         </button>
-        {selectedBrands.map((brandValue, index) => (
-          <div className="form-group" key={index}>
-            <label>Thương hiệu</label>
+        {selectedBrands.map((brandValue, bIndex) => (
+          <div className="form-group" key={bIndex}>
+            <div className="flex-row">
+              <label>Thương hiệu</label>
+              <button type="button" onClick={() => removeCategoryBrand(bIndex)}>
+                Xóa
+              </button>
+            </div>
             <select
               value={brandValue}
-              onChange={(e) => handleChangeBrand(index, e.target.value)}
+              onChange={(e) => handleChangeBrand(bIndex, e.target.value)}
             >
               <option value="">-- Chọn thương hiệu --</option>
               {brands.map((brand) => (

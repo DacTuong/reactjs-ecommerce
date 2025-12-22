@@ -140,7 +140,33 @@ const AddProduct = () => {
     });
   };
   // xữ lý phần xóa từng cái trong varian
-  const removeItem = (key, id, value) => {};
+  const removeVariant = (varianIndex) => {
+    // Nếu chỉ còn 1 biến thể thì không cho xóa
+    if (product.variants.length === 1) {
+      alert("Phải có ít nhất 1 biến thể sản phẩm");
+      return;
+    }
+    const newVariants = product.variants.filter(
+      (_, index) => index !== varianIndex
+    );
+    setProduct({
+      ...product,
+      variants: newVariants,
+    });
+  };
+  const removeColor = (variantIndex, cIndex) => {
+    const newVariants = [...product.variants];
+    newVariants[variantIndex] = {
+      ...newVariants[variantIndex],
+      colors: newVariants[variantIndex].colors.filter(
+        (_, index) => index !== cIndex
+      ),
+    };
+    setProduct({
+      ...product,
+      variants: newVariants,
+    });
+  };
   // Phần xữ lý cập nhật và nhận value của variant color
   const updateColor = (variantIndex, colorIndex, key, value) => {
     const updateColor = [...product.variants];
@@ -199,8 +225,10 @@ const AddProduct = () => {
           {product.variants.map((variant, vIndex) => (
             <div key={vIndex} className="variant-box">
               <div className="flex-row">
-                <b>Biến thể số {vIndex}</b>
-                <button>Xóa biến thể</button>
+                <b>Biến thể số {vIndex + 1}</b>
+                <button type="button" onClick={() => removeVariant(vIndex)}>
+                  Xóa biến thể
+                </button>
               </div>
               <label>Tên biến thể</label>
               <input
@@ -214,12 +242,17 @@ const AddProduct = () => {
               {/* HIỂN THỊ DANH SÁCH MÀU */}
               {variant.colors.map((color, cIndex) => (
                 <div className="" key={cIndex}>
-                  <h3>Màu sắc số {cIndex}</h3>
+                  <h3>Màu sắc số {cIndex + 1}</h3>
                   <div className="flex-row">
                     <div className="form-groub">
                       <div className="flex-row">
                         <label>Tên màu sắc</label>
-                        <button>Xóa</button>
+                        <button
+                          type="button"
+                          onClick={() => removeColor(vIndex, cIndex)}
+                        >
+                          Xóa
+                        </button>
                       </div>
                       <input
                         value={color.color_name}

@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);
+  const [openId, setOpenId] = useState(null);
+  const toggleDropdownID = (id) => {
+    setOpenId(openId === id ? null : id);
+  };
   return (
     <div>
       <nav className="navbar-cls-top">
@@ -42,30 +45,37 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className="nav-item">
-            <Link to="/admin/products" className="nav-link">
+            {/* Tiêu đề menu */}
+            <div
+              className="nav-link"
+              onClick={() => toggleDropdownID(1)}
+              style={{ cursor: "pointer" }}
+            >
               <img
                 className="icon-nav"
-                src="https://www.svgrepo.com/show/497135/envelope.svg"
-                alt="Messages Icon"
+                src="https://www.svgrepo.com/show/497148/money-transfer.svg"
+                alt="Transactions Icon"
               />
-              <span className="sidebar-text">Products</span>
-            </Link>
+              <span className="sidebar-text">Quản lý sản phẩm</span>
+              <span className={`arrow ${openId === 1 ? "rotate" : ""}`}>▾</span>
+            </div>
+            {openId === 1 && (
+              <div className="sub-menu">
+                <Link to="/admin/products">
+                  <span className="sidebar-text">Products</span>
+                </Link>
+                <Link to="/admin/new-product">
+                  <span className="sidebar-text">Create-products</span>
+                </Link>
+              </div>
+            )}
           </div>
-          <div className="nav-item">
-            <Link to="/admin/new-product" className="nav-link">
-              <img
-                className="icon-nav"
-                src="https://www.svgrepo.com/show/497135/envelope.svg"
-                alt="Messages Icon"
-              />
-              <span className="sidebar-text">Products</span>
-            </Link>
-          </div>
+
           <div className="nav-item">
             {/* Tiêu đề menu */}
             <div
               className="nav-link"
-              onClick={() => setOpen(!open)}
+              onClick={() => toggleDropdownID(2)}
               style={{ cursor: "pointer" }}
             >
               <img
@@ -74,11 +84,11 @@ const Sidebar = () => {
                 alt="Transactions Icon"
               />
               <span className="sidebar-text">Thương hiệu</span>
-              <span className={`arrow ${open ? "rotate" : ""}`}>▾</span>
+              <span className={`arrow ${openId === 2 ? "rotate" : ""}`}>▾</span>
             </div>
 
             {/* Menu xổ xuống */}
-            {open && (
+            {openId === 2 && (
               <div className="sub-menu">
                 <Link to="/admin/new-brand">Thêm thương hiệu mới</Link>
                 <Link to="/admin/brands">Danh sách thương hiệu</Link>
@@ -88,7 +98,7 @@ const Sidebar = () => {
           <div className="nav-item">
             <div
               className="nav-link"
-              onClick={() => setOpen(!open)}
+              onClick={() => toggleDropdownID(3)}
               style={{ cursor: "pointer" }}
             >
               <img
@@ -97,9 +107,9 @@ const Sidebar = () => {
                 alt="Settings Icon"
               />
               <span className="sidebar-text">Quản lý mối quan hệ</span>
-              <span className={`arrow ${open ? "rotate" : ""}`}>▾</span>
+              <span className={`arrow ${openId === 3 ? "rotate" : ""}`}>▾</span>
             </div>
-            {open && (
+            {openId === 3 && (
               <div className="sub-menu">
                 <Link to="/admin/brand-categories">Danh sách mối quan hệ</Link>
                 <Link to="/admin/brand-categories/create">Gắn mối quan hệ</Link>
