@@ -179,9 +179,34 @@
     height: 100%;
     width: 100%;
     background-color: #ccc;
+    position: relative;
+  }
+  .button-image {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    top: 45%;
+    width: 100%;
+  }
+  .btn-prev {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 40px;
+    border-radius: 10px;
+    border-color: transparent;
+  }
+  .btn-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px;
+    width: 40px;
+    border-radius: 10px;
+    border-color: transparent;
   }
   .slide-image {
-    background-color: red;
     height: 100%;
     display: flex;
     overflow: hidden;

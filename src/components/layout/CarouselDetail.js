@@ -6,8 +6,14 @@ const CarouselDetail = ({ images }) => {
       <div className="bgfullscreen-gallery"></div>
       <div className="feature-img">
         <div className="thubmail-slide full">
-          <div className="prev"></div>
-          <div className="next"></div>
+          <div className="button-image">
+            <button className="btn-prev">
+              <span>&lt;</span>
+            </button>
+            <button className="btn-next">
+              <span>&gt;</span>
+            </button>
+          </div>
           <div className="slide-image">
             {images.map((img, index) => (
               <div className="item-img" key={index}>
