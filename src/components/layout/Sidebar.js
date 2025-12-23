@@ -117,6 +117,29 @@ const Sidebar = () => {
             )}
           </div>
           <div className="nav-item">
+            <div
+              className="nav-link"
+              onClick={() => toggleDropdownID(4)}
+              style={{ cursor: "pointer" }}
+            >
+              <img
+                className="icon-nav"
+                src="https://www.svgrepo.com/show/497144/settings.svg"
+                alt="Settings Icon"
+              />
+              <span className="sidebar-text">Quản lý loại sản phẩm</span>
+              <span className={`arrow ${openId === 4 ? "rotate" : ""}`}>▾</span>
+            </div>
+            {openId === 4 && (
+              <div className="sub-menu">
+                <Link to="/admin/categories">Danh sách loại sản phẩm</Link>
+                <Link to="/admin/categories/create">
+                  Thêm loại sản phẩm mới
+                </Link>
+              </div>
+            )}
+          </div>
+          <div className="nav-item">
             <a href="#" className="nav-link">
               <img
                 className="icon-nav"

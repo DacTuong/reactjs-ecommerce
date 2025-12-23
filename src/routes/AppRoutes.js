@@ -1,6 +1,6 @@
 // src/routes/AppRoutes.js
 import React from "react";
-import { Routes, Route, Router } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 
 // Layouts
 import UserLayout from "../layouts/UserLayout";
@@ -30,6 +30,8 @@ import Brand from "../pages/admin/brands/Brands";
 import AddNewBrand from "../pages/admin/brands/AddNewBrand";
 import AssignBrandToCategory from "../pages/admin/brand-categories/AssignBrandToCategory";
 import AddBrandCategories from "../pages/admin/brand-categories/AddBrandCategories";
+import AddCategory from "../pages/admin/categories/AddCategory";
+import Categories from "../pages/admin/categories/Categories";
 
 const AppRoutes = () => {
   return (
@@ -65,6 +67,8 @@ const AppRoutes = () => {
           path="brand-categories/create"
           element={<AddBrandCategories />}
         />
+        <Route path="categories" element={<Categories />} />
+        <Route path="categories/create" element={<AddCategory />} />
       </Route>
     </Routes>
   );

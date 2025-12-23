@@ -8,9 +8,9 @@ const AddNewBrand = () => {
       { name: "" }, // thêm brand mới
     ]);
   };
-  const handleChangeCategory = (cateIndex, value) => {
+  const handleChangeBrand = (brandIndex, value) => {
     const newBrand = [...brands];
-    newBrand[cateIndex].name = value;
+    newBrand[brandIndex].name = value;
     setBrand(newBrand);
   };
   const removeBrand = (bIndex) => {
@@ -40,7 +40,7 @@ const AddNewBrand = () => {
 
             <input
               value={brand.name}
-              onChange={(e) => handleChangeCategory(bIndex, e.target.value)}
+              onChange={(e) => handleChangeBrand(bIndex, e.target.value)}
             />
           </div>
         ))}
