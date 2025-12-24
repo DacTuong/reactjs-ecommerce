@@ -1,25 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 
 const CarouselDetail = ({ images }) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const next = () => {
+    setCurrentIndex((pre) => {
+      if (pre >= images.length - 1) return pre;
+      return pre + 1;
+    });
+  };
+
+  const prev = () => {
+    setCurrentIndex((pre) => {
+      if (pre <= 0) return pre;
+      return pre - 1;
+    });
+  };
+
+  const [show, setShow] = useState(false);
+
   return (
     <div className="slider-detail white-bg">
-      <div className="bgfullscreen-gallery"></div>
+      {show && (
+        <div>
+          <div
+            className="bgfullscreen-gallery"
+            onClick={() => setShow(false)}
+          ></div>
+          <div className="wrap fullscreen-gallery"></div>
+          <div
+            className="closefullScreen-gallery"
+            onClick={() => setShow(false)}
+          >
+            X Đóng
+          </div>
+        </div>
+      )}
       <div className="feature-img">
         <div className="thubmail-slide full">
           <div className="button-image">
-            <button className="btn-prev">
+            <button className="btn-prev" onClick={prev}>
               <span>&lt;</span>
             </button>
-            <button className="btn-next">
+            <button className="btn-next" onClick={next}>
               <span>&gt;</span>
             </button>
           </div>
           <div className="slide-image">
-            {images.map((img, index) => (
-              <div className="item-img" key={index}>
-                <img src={img} alt="" />
-              </div>
-            ))}
+            <div
+              className="slide-track"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {images.map((img, index) => (
+                <div
+                  className="item-img"
+                  key={index}
+                  onClick={() => setShow(true)}
+                >
+                  <img src={img} alt="" />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
