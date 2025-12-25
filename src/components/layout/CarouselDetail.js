@@ -27,7 +27,20 @@ const CarouselDetail = ({ images }) => {
             className="bgfullscreen-gallery"
             onClick={() => setShow(false)}
           ></div>
-          <div className="wrap fullscreen-gallery"></div>
+          <div className="wrap fullscreen-gallery white-bg">
+            <div className="thumbnail-slide full">
+              <div className="slide-image">
+                <div className="slide-track">
+                  {images.map((img, index) => (
+                    <div className="item-img">
+                      <img src={img} alt="" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="dots"></div>
+          </div>
           <div
             className="closefullScreen-gallery"
             onClick={() => setShow(false)}
@@ -37,15 +50,16 @@ const CarouselDetail = ({ images }) => {
         </div>
       )}
       <div className="feature-img">
-        <div className="thubmail-slide full">
-          <div className="button-image">
-            <button className="btn-prev" onClick={prev}>
+        <div className="thumbnail-slide">
+          <div className="gallery-controls">
+            <button className="slider-btn btn-prev" onClick={prev}>
               <span>&lt;</span>
             </button>
-            <button className="btn-next" onClick={next}>
+            <button className="slider-btn btn-next" onClick={next}>
               <span>&gt;</span>
             </button>
           </div>
+
           <div className="slide-image">
             <div
               className="slide-track"

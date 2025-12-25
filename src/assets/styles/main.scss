@@ -166,7 +166,6 @@
 }
 .slider-detail {
   padding: 15px 10px;
-
   border-radius: 6px;
   box-shadow: #000;
 
@@ -175,19 +174,30 @@
     height: 400px;
     width: 100%;
   }
-  .thubmail-slide {
+  .thumbnail-slide {
     height: 100%;
     width: 100%;
-    background-color: #ccc;
+    background-color: white;
     position: relative;
   }
-  .button-image {
+  .thumbnail-slide.full {
+    background-color: black;
+    height: 70%;
+    margin: 0 auto;
+  }
+  .gallery-controls {
     position: absolute;
     display: flex;
-    justify-content: space-between;
-    top: 45%;
     width: 100%;
-    z-index: 10;
+    justify-content: space-between;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* chặn nền */
+    z-index: 30;
+  }
+  .gallery-controls .slider-btn {
+    pointer-events: auto; /* mở click cho nút */
+    z-index: 31;
   }
   .btn-prev {
     display: flex;
@@ -226,7 +236,7 @@
   .item-img img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Giữ tỷ lệ ảnh, không méo */
+    object-fit: contain; /* Giữ tỷ lệ ảnh, không méo */
     object-position: center; /* Canh giữa ảnh */
   }
 
@@ -255,7 +265,7 @@
     cursor: pointer;
   }
   .fullscreen-gallery {
-    background-color: white;
+    // background-color: white;
     position: fixed;
     width: 85%;
     height: 100vh;
