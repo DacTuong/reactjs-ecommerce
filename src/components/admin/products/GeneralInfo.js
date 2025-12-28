@@ -6,13 +6,13 @@ const GeneralInfo = ({
   categories,
   handleChangeCategory,
   filteredBrands,
+  onChangeProductSku,
 }) => {
   return (
     <div className="information-product">
       <h1>Thông tin sản phẩm</h1>
       <div className="form-groub">
         <label>Mã sản phẩm</label>
-
         <input
           type="text"
           id="product_code"
@@ -26,7 +26,6 @@ const GeneralInfo = ({
       <div className="flex-row">
         <div className="form-groub">
           <label>Loại sản phẩm</label>
-
           <select value={product.category} onChange={handleChangeCategory}>
             {categories.map((cate) => (
               <option key={cate.id} value={cate.value}>
@@ -67,14 +66,24 @@ const GeneralInfo = ({
         />
       </div>
       <div className="form-groub">
+        <label>Slug name</label>
+        <input
+          type="text"
+          id="product_slug"
+          value={product.product_slug}
+          onChange={(e) =>
+            setProduct({ ...product, product_slug: e.target.value })
+          }
+          className=""
+        />
+      </div>
+      <div className="form-groub">
         <label>Mã SKU</label>
         <input
           type="text"
           id="code_sku"
           value={product.product_sku}
-          onChange={(e) =>
-            setProduct({ ...product, product_sku: e.target.value })
-          }
+          onChange={(e) => onChangeProductSku(e.target.value)}
           className=""
         />
       </div>

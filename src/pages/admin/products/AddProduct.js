@@ -77,6 +77,7 @@ const AddProduct = () => {
           {
             color_name: "",
             color_sku: "",
+            isAuto: true,
           },
         ],
       },
@@ -131,6 +132,7 @@ const AddProduct = () => {
         {
           color_name: "",
           color_sku: "",
+          isAuto: true,
         },
       ],
     };
@@ -168,16 +170,46 @@ const AddProduct = () => {
     });
   };
   // Phần xữ lý cập nhật và nhận value của variant color
+  // cần tập và xữ lý lại
   const updateColor = (variantIndex, colorIndex, key, value) => {
-    const updateColor = [...product.variants];
-    updateColor[variantIndex].colors[colorIndex][key] = value;
-    setProduct({
-      ...product,
-      variants: updateColor,
+    setProduct((prev) => {
+      const variants = prev.variants.map((variant, vIdx) => {
+        if (vIdx !== variantIndex) return variant;
+
+        return {
+          ...variant,
+          colors: variant.colors.map((color, cIdx) => {
+            if (cIdx !== colorIndex) return color;
+
+            return {
+              ...color,
+              [key]: value,
+              ...(key === "color_sku" && { isAuto: false }),
+            };
+          }),
+        };
+      });
+
+      return { ...prev, variants };
     });
   };
   // Phần thay đổi tab trên trang mặc định là general
   const [tab, setTab] = useState("general");
+
+  // xữ lý phần tự động điền sku cho color khi nhập sku product
+  // cần học và tập xữ lý lại
+  const handleChangeProductSku = (sku) => {
+    setProduct((prev) => ({
+      ...prev,
+      product_sku: sku,
+      variants: prev.variants.map((variant) => ({
+        ...variant,
+        colors: variant.colors.map((color) =>
+          color.isAuto ? { ...color, color_sku: sku } : color
+        ),
+      })),
+    }));
+  };
 
   // Phần xữ lý lấy tất cả các thông tin của sản phẩm
   const handleSubmit = (e) => {
@@ -205,6 +237,7 @@ const AddProduct = () => {
             setProduct={setProduct}
             categories={CATEGORY_FIELDS}
             handleChangeCategory={handleChangeCategory}
+            onChangeProductSku={handleChangeProductSku}
           />
         )}
         {/* thay đổi tab detail trên trang add product */}
