@@ -94,11 +94,20 @@ const AddBrandCategories = () => {
               onChange={(e) => handleChangeBrand(bIndex, e.target.value)}
             >
               <option value="">-- Chọn thương hiệu --</option>
-              {brands.map((brand) => (
+              {/* {brands.map((brand) => (
                 <option key={brand.id} value={brand.id}>
                   {brand.brand_name}
                 </option>
-              ))}
+              ))} */}
+              {brands
+                .filter(
+                  (brand) =>
+                    !selectedBrands.includes(brand.id.toString()) ||
+                    brand.id.toString() === brandValue
+                )
+                .map((brand) => (
+                  <option value={brand.id}>{brand.brand_name}</option>
+                ))}
             </select>
           </div>
         ))}
