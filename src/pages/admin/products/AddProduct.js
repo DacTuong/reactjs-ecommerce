@@ -69,6 +69,7 @@ const AddProduct = () => {
     category: 1,
     product_name: "",
     product_sku: "",
+    product_name_slug: "",
     details: {},
     variants: [
       {
@@ -104,13 +105,22 @@ const AddProduct = () => {
 
   //Phần xữ lý thêm variant
   const addVariant = () => {
-    setProduct({
-      ...product,
+    setProduct((prev) => ({
+      ...prev,
       variants: [
-        ...product.variants,
-        { name_variant: "", colors: [{ color_name: "", color_sku: "" }] },
+        ...prev.variants,
+        {
+          name_variant: "",
+          colors: [
+            {
+              color_name: "",
+              color_sku: prev.product_sku || "",
+              isAuto: true,
+            },
+          ],
+        },
       ],
-    });
+    }));
   };
 
   //Phần xữ lý cập nhất lại thông tin của variant
@@ -131,7 +141,7 @@ const AddProduct = () => {
         ...newColor[varianIndex].colors,
         {
           color_name: "",
-          color_sku: "",
+          color_sku: product.product_sku || "",
           isAuto: true,
         },
       ],
@@ -170,17 +180,36 @@ const AddProduct = () => {
     });
   };
   // Phần xữ lý cập nhật và nhận value của variant color
-  // cần tập và xữ lý lại
+  // HÀM updateColor(variantIndex, colorIndex, key, value):
+
+  // CẬP NHẬT product STATE:
+  //   LẤY state cũ (prev)
+
+  //   DUYỆT TẤT CẢ variants:
+  //     NẾU variant KHÔNG PHẢI variant đang chỉnh
+  //       → GIỮ NGUYÊN
+
+  //     NẾU ĐÚNG variant đang chỉnh
+  //       → DUYỆT danh sách colors:
+  //           NẾU color KHÔNG PHẢI color đang chỉnh
+  //             → GIỮ NGUYÊN
+
+  //           NẾU ĐÚNG color đang chỉnh
+  //             → CẬP NHẬT:
+  //                 - field tương ứng với key = value
+  //                 - NẾU key là "color_sku"
+  //                   → set isAuto = false
+
+  //   TRẢ VỀ product mới với variants đã cập nhật
+
   const updateColor = (variantIndex, colorIndex, key, value) => {
     setProduct((prev) => {
-      const variants = prev.variants.map((variant, vIdx) => {
+      const newVariants = prev.variants.map((variant, vIdx) => {
         if (vIdx !== variantIndex) return variant;
-
         return {
           ...variant,
           colors: variant.colors.map((color, cIdx) => {
             if (cIdx !== colorIndex) return color;
-
             return {
               ...color,
               [key]: value,
@@ -189,8 +218,7 @@ const AddProduct = () => {
           }),
         };
       });
-
-      return { ...prev, variants };
+      return { ...prev, variants: newVariants };
     });
   };
   // Phần thay đổi tab trên trang mặc định là general
@@ -198,11 +226,35 @@ const AddProduct = () => {
 
   // xữ lý phần tự động điền sku cho color khi nhập sku product
   // cần học và tập xữ lý lại
+  // HÀM handleChangeProductSku(sku):
+
+  // Cập nhật state product bằng setProduct
+
+  // Lấy product hiện tại (prev)
+
+  // Tạo product mới:
+  //   - Giữ nguyên tất cả thuộc tính cũ
+  //   - Gán product_sku = sku mới
+
+  //   - Duyệt qua toàn bộ danh sách variants
+  //       Với mỗi variant:
+  //         - Giữ nguyên thông tin variant
+  //         - Duyệt qua toàn bộ colors của variant
+  //             Với mỗi color:
+  //               - NẾU color.isAuto == true
+  //                   → tạo color mới
+  //                      + giữ nguyên các field cũ
+  //                      + gán color_sku = sku
+  //               - NGƯỢC LẠI
+  //                   → giữ nguyên color
+
+  // Trả về product mới
+
   const handleChangeProductSku = (sku) => {
     setProduct((prev) => ({
       ...prev,
       product_sku: sku,
-      variants: prev.variants.map((variant) => ({
+      variants: product.variants.map((variant) => ({
         ...variant,
         colors: variant.colors.map((color) =>
           color.isAuto ? { ...color, color_sku: sku } : color
@@ -211,6 +263,27 @@ const AddProduct = () => {
     }));
   };
 
+  // Phần xữ lý name slug
+  const toSlug = (str) => {
+    return str
+      .toLowerCase()
+      .normalize("NFD") // bỏ dấu tiếng Việt
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-");
+  };
+  // cần làm lại
+  const handleChangeProductName = (value) => {
+    const slug = toSlug(value);
+
+    setProduct((prev) => ({
+      ...prev,
+      product_name: value,
+      product_name_slug: slug,
+    }));
+  };
   // Phần xữ lý lấy tất cả các thông tin của sản phẩm
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -238,6 +311,7 @@ const AddProduct = () => {
             categories={CATEGORY_FIELDS}
             handleChangeCategory={handleChangeCategory}
             onChangeProductSku={handleChangeProductSku}
+            onChangeProductName={handleChangeProductName}
           />
         )}
         {/* thay đổi tab detail trên trang add product */}

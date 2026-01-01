@@ -7,6 +7,7 @@ const GeneralInfo = ({
   handleChangeCategory,
   filteredBrands,
   onChangeProductSku,
+  onChangeProductName,
 }) => {
   return (
     <div className="information-product">
@@ -59,9 +60,7 @@ const GeneralInfo = ({
           type="text"
           id="product_name"
           value={product.product_name}
-          onChange={(e) =>
-            setProduct({ ...product, product_name: e.target.value })
-          }
+          onChange={(e) => onChangeProductName(e.target.value)}
           className=""
         />
       </div>
@@ -70,9 +69,9 @@ const GeneralInfo = ({
         <input
           type="text"
           id="product_slug"
-          value={product.product_slug}
+          value={product.product_name_slug}
           onChange={(e) =>
-            setProduct({ ...product, product_slug: e.target.value })
+            setProduct({ ...product, product_name_slug: e.target.value })
           }
           className=""
         />
