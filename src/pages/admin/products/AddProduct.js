@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DetailProduct from "../../../components/admin/products/DetailProduct";
 import GeneralInfo from "../../../components/admin/products/GeneralInfo";
+import VariantProduct from "../../../components/admin/products/VariantProduct";
 
 const brands = [
   { id: 1, idcate: 1, brand: "samsung" },
@@ -78,6 +79,12 @@ const AddProduct = () => {
           {
             color_name: "",
             color_sku: "",
+            galleries: [
+              {
+                path_image: "",
+                is_main: "",
+              },
+            ],
             isAuto: true,
           },
         ],
@@ -167,6 +174,11 @@ const AddProduct = () => {
     });
   };
   const removeColor = (variantIndex, cIndex) => {
+    const variant = product.variants[variantIndex];
+    if (variant.colors.length === 1) {
+      alert("Mỗi biến thể phải có ít nhất 1 màu");
+      return;
+    }
     const newVariants = [...product.variants];
     newVariants[variantIndex] = {
       ...newVariants[variantIndex],
@@ -180,32 +192,36 @@ const AddProduct = () => {
     });
   };
   // Phần xữ lý cập nhật và nhận value của variant color
-  // HÀM updateColor(variantIndex, colorIndex, key, value):
 
-  // CẬP NHẬT product STATE:
-  //   LẤY state cũ (prev)
+  // Hàm updateColor(varianIndex, colorIndex, key, value):
 
-  //   DUYỆT TẤT CẢ variants:
-  //     NẾU variant KHÔNG PHẢI variant đang chỉnh
-  //       → GIỮ NGUYÊN
+  //   Cập nhật product dựa trên state trước đó (prev)
 
-  //     NẾU ĐÚNG variant đang chỉnh
-  //       → DUYỆT danh sách colors:
-  //           NẾU color KHÔNG PHẢI color đang chỉnh
-  //             → GIỮ NGUYÊN
+  //   Tạo product mới:
+  //     - Giữ nguyên toàn bộ dữ liệu cũ của product
+  //     - Cập nhật lại danh sách variants
 
-  //           NẾU ĐÚNG color đang chỉnh
-  //             → CẬP NHẬT:
-  //                 - field tương ứng với key = value
-  //                 - NẾU key là "color_sku"
-  //                   → set isAuto = false
+  //   Với mỗi variant trong variants:
+  //     Nếu index của variant KHÔNG trùng varianIndex:
+  //       → Giữ nguyên variant đó
+  //     Ngược lại (đúng variant cần sửa):
+  //       - Giữ nguyên dữ liệu cũ của variant
+  //       - Cập nhật lại danh sách colors
 
-  //   TRẢ VỀ product mới với variants đã cập nhật
+  //       Với mỗi color trong colors:
+  //         Nếu index của color KHÔNG trùng colorIndex:
+  //           → Giữ nguyên color đó
+  //         Ngược lại (đúng color cần sửa):
+  //           - Giữ nguyên dữ liệu cũ của color
+  //           - Cập nhật thuộc tính [key] = value
+  //           - Nếu key là "color_sku":
+  //               → đặt isAuto = false
 
-  const updateColor = (variantIndex, colorIndex, key, value) => {
-    setProduct((prev) => {
-      const newVariants = prev.variants.map((variant, vIdx) => {
-        if (vIdx !== variantIndex) return variant;
+  const updateColor = (varianIndex, colorIndex, key, value) => {
+    setProduct((prev) => ({
+      ...prev,
+      variants: prev.variants.map((variant, vIdx) => {
+        if (vIdx !== varianIndex) return variant;
         return {
           ...variant,
           colors: variant.colors.map((color, cIdx) => {
@@ -217,9 +233,8 @@ const AddProduct = () => {
             };
           }),
         };
-      });
-      return { ...prev, variants: newVariants };
-    });
+      }),
+    }));
   };
   // Phần thay đổi tab trên trang mặc định là general
   const [tab, setTab] = useState("general");
@@ -249,12 +264,11 @@ const AddProduct = () => {
   //                   → giữ nguyên color
 
   // Trả về product mới
-
   const handleChangeProductSku = (sku) => {
     setProduct((prev) => ({
       ...prev,
       product_sku: sku,
-      variants: product.variants.map((variant) => ({
+      variants: prev.variants.map((variant) => ({
         ...variant,
         colors: variant.colors.map((color) =>
           color.isAuto ? { ...color, color_sku: sku } : color
@@ -300,6 +314,9 @@ const AddProduct = () => {
         <button onClick={() => setTab("detail")}>
           <b>Thông tin chi tiết</b>
         </button>
+        <button onClick={() => setTab("variant")}>
+          <b>Biến thể sản phẩm</b>
+        </button>
       </div>
       <form onSubmit={handleSubmit}>
         {/* thay đổi tab general trên trang add product */}
@@ -324,76 +341,19 @@ const AddProduct = () => {
             />
           </div>
         )}
-        <div className="variant-product">
-          <h3>Thêm biến thể sản phẩm</h3>
-          <button onClick={addVariant} type="button">
-            Thêm biến thể
-          </button>
-          {product.variants.map((variant, vIndex) => (
-            <div key={vIndex} className="variant-box">
-              <div className="flex-row">
-                <b>Biến thể số {vIndex + 1}</b>
-                <button type="button" onClick={() => removeVariant(vIndex)}>
-                  Xóa biến thể
-                </button>
-              </div>
-              <label>Tên biến thể</label>
-              <input
-                value={variant.name_variant}
-                onChange={(e) => updateVariant(vIndex, e.target.value)}
-              />
-
-              <button type="button" onClick={() => addColor(vIndex)}>
-                Thêm màu mới
-              </button>
-              {/* HIỂN THỊ DANH SÁCH MÀU */}
-              {variant.colors.map((color, cIndex) => (
-                <div className="" key={cIndex}>
-                  <h3>Màu sắc số {cIndex + 1}</h3>
-                  <div className="flex-row">
-                    <div className="form-groub">
-                      <div className="flex-row">
-                        <label>Tên màu sắc</label>
-                        <button
-                          type="button"
-                          onClick={() => removeColor(vIndex, cIndex)}
-                        >
-                          Xóa
-                        </button>
-                      </div>
-                      <input
-                        value={color.color_name}
-                        onChange={(e) =>
-                          updateColor(
-                            vIndex,
-                            cIndex,
-                            "color_name",
-                            e.target.value
-                          )
-                        }
-                      ></input>
-                    </div>
-                    <div className="form-groub">
-                      <label>Mã SKU</label>
-                      <input
-                        value={color.color_sku}
-                        onChange={(e) =>
-                          updateColor(
-                            vIndex,
-                            cIndex,
-                            "color_sku",
-                            e.target.value
-                          )
-                        }
-                      ></input>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
-
+        {tab === "variant" && (
+          <div>
+            <VariantProduct
+              variants={product.variants}
+              addVariant={addVariant}
+              removeVariant={removeVariant}
+              updateVariant={updateVariant}
+              addColor={addColor}
+              removeColor={removeColor}
+              updateColor={updateColor}
+            />
+          </div>
+        )}
         <div>
           <button type="submit">Lưu sản phẩm</button>
         </div>
