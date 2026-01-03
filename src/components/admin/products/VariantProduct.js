@@ -8,6 +8,7 @@ const VariantProduct = ({
   addColor,
   removeColor,
   updateColor,
+  handleAddColorImages,
 }) => {
   return (
     <div className="variant-product">
@@ -66,8 +67,29 @@ const VariantProduct = ({
                   ></input>
                 </div>
               </div>
+              {color.galleries?.length > 0 && (
+                <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
+                  {color.galleries.map((img, imgIdx) => (
+                    <img
+                      key={imgIdx}
+                      src={img.preview}
+                      width={80}
+                      height={80}
+                      style={{ objectFit: "cover", borderRadius: 6 }}
+                      title={img.file?.name}
+                    />
+                  ))}
+                </div>
+              )}
               <div>
-                <input type="file" multiple accept="image/*" />
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) =>
+                    handleAddColorImages(vIndex, cIndex, e.target.files)
+                  }
+                />
               </div>
             </div>
           ))}

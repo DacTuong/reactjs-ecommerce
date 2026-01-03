@@ -79,12 +79,7 @@ const AddProduct = () => {
           {
             color_name: "",
             color_sku: "",
-            galleries: [
-              {
-                path_image: "",
-                is_main: "",
-              },
-            ],
+            galleries: [],
             isAuto: true,
           },
         ],
@@ -298,6 +293,34 @@ const AddProduct = () => {
       product_name_slug: slug,
     }));
   };
+
+  // Phần xữ lý hiển thị hinh ảnh khi tải lên
+  const handleAddColorImages = (variantIndex, colorIndex, files) => {
+    const newImages = Array.from(files).map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+      is_main: 0,
+    }));
+
+    setProduct((prev) => ({
+      ...prev,
+      variants: prev.variants.map((variant, vIdx) => {
+        if (vIdx !== variantIndex) return variant;
+
+        return {
+          ...variant,
+          colors: variant.colors.map((color, cIdx) => {
+            if (cIdx !== colorIndex) return color;
+
+            return {
+              ...color,
+              galleries: [...color.galleries, ...newImages],
+            };
+          }),
+        };
+      }),
+    }));
+  };
   // Phần xữ lý lấy tất cả các thông tin của sản phẩm
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -351,6 +374,7 @@ const AddProduct = () => {
               addColor={addColor}
               removeColor={removeColor}
               updateColor={updateColor}
+              handleAddColorImages={handleAddColorImages}
             />
           </div>
         )}
