@@ -1,7 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
 const AddNewBrand = () => {
-  const [brands, setBrand] = useState([{ name: "" }]);
+  const [brands, setBrand] = useState([{ name: "", slug_name: "" }]);
+  // Phần xữ lý name slug
+  const toSlug = (str) => {
+    return str
+      .toLowerCase()
+      .normalize("NFD") // bỏ dấu tiếng Việt
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d")
+      .replace(/[^a-z0-9\s-]/g, "")
+      .trim()
+      .replace(/\s+/g, "-");
+  };
   const addBrand = () => {
     setBrand([
       ...brands,
@@ -11,6 +22,7 @@ const AddNewBrand = () => {
   const handleChangeBrand = (brandIndex, value) => {
     const newBrand = [...brands];
     newBrand[brandIndex].name = value;
+    newBrand[brandIndex].slug_name = toSlug(value);
     setBrand(newBrand);
   };
   const removeBrand = (bIndex) => {
@@ -47,18 +59,28 @@ const AddNewBrand = () => {
       <button onClick={addBrand}>Thêm Thương hiệu mới</button>
       <form onSubmit={handleSubmit}>
         {brands.map((brand, bIndex) => (
-          <div className="form-groub" key={bIndex}>
-            <div className="flex-row">
-              <label>Tên thương hiệu</label>
-              <button type="button" onClick={() => removeBrand(bIndex)}>
-                Xóa
-              </button>
+          <div>
+            <div className="form-groub" key={bIndex}>
+              <div className="flex-row">
+                <label>Tên thương hiệu</label>
+                <button type="button" onClick={() => removeBrand(bIndex)}>
+                  Xóa
+                </button>
+              </div>
+              <input
+                value={brand.name}
+                onChange={(e) => handleChangeBrand(bIndex, e.target.value)}
+              />
             </div>
 
-            <input
-              value={brand.name}
-              onChange={(e) => handleChangeBrand(bIndex, e.target.value)}
-            />
+            <div className="form-groub" key={bIndex}>
+              <label>Thương hiện slug</label>
+
+              <input
+                value={brand.slug_name}
+                onChange={(e) => handleChangeBrand(bIndex, e.target.value)}
+              />
+            </div>
           </div>
         ))}
         <button type="submit">Lưu thương hiệu</button>
