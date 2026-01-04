@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 const AddNewBrand = () => {
   const [brands, setBrand] = useState([{ name: "" }]);
   const addBrand = () => {
@@ -21,9 +21,26 @@ const AddNewBrand = () => {
     const newbrand = brands.filter((_, index) => index !== bIndex);
     setBrand(newbrand);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("DỮ LIỆU THƯƠNG HIỆU:", brands);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/brand",
+        brands, // gửi trực tiếp mảng
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      alert("Lưu thương hiệu thành công");
+      console.log(res.data);
+    } catch (error) {
+      console.error(error);
+      alert("Lỗi khi lưu thương hiệu");
+    }
   };
   return (
     <div>
