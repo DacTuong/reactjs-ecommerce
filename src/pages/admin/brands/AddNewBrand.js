@@ -16,14 +16,21 @@ const AddNewBrand = () => {
   const addBrand = () => {
     setBrand([
       ...brands,
-      { name: "" }, // thêm brand mới
+      { name: "", slug_name: "" }, // thêm brand mới
     ]);
   };
   const handleChangeBrand = (brandIndex, value) => {
-    const newBrand = [...brands];
-    newBrand[brandIndex].name = value;
-    newBrand[brandIndex].slug_name = toSlug(value);
-    setBrand(newBrand);
+    setBrand((prev) =>
+      prev.map((b, i) =>
+        i === brandIndex
+          ? {
+              ...b,
+              name: value,
+              slug_name: toSlug(value),
+            }
+          : b
+      )
+    );
   };
   const removeBrand = (bIndex) => {
     if (brands.length === 1) {
@@ -59,8 +66,9 @@ const AddNewBrand = () => {
       <button onClick={addBrand}>Thêm Thương hiệu mới</button>
       <form onSubmit={handleSubmit}>
         {brands.map((brand, bIndex) => (
-          <div>
-            <div className="form-groub" key={bIndex}>
+          <div key={bIndex}>
+            <h3>Thương hiệu {bIndex}</h3>
+            <div className="form-groub">
               <div className="flex-row">
                 <label>Tên thương hiệu</label>
                 <button type="button" onClick={() => removeBrand(bIndex)}>
@@ -73,7 +81,7 @@ const AddNewBrand = () => {
               />
             </div>
 
-            <div className="form-groub" key={bIndex}>
+            <div className="form-groub">
               <label>Thương hiện slug</label>
 
               <input
