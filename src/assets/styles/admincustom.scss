@@ -161,6 +161,38 @@
   margin-top: 10px;
   border-radius: 6px;
 }
+.brand-item {
+  border: 1px solid;
+  border-color: black;
+  padding: 5px 10px;
+}
+.brand-content {
+  display: flex;
+  gap: 20px;
+}
+.brand-left {
+  flex: 2;
+}
+.brand-right {
+  flex: 1;
+}
+.brand-right label {
+  display: block;
+}
+
+.preview {
+  height: 100px;
+}
+.preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Giữ tỷ lệ ảnh, không méo */
+  object-position: center; /* Canh giữa ảnh */
+}
+
+.brand-right input {
+  display: block;
+}
 @media (max-width: 640px) {
   .grid-admin {
     flex-direction: column;
