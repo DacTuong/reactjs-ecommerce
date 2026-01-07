@@ -1,46 +1,96 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+
 const AddNewBrand = () => {
-  const [brands, setBrand] = useState([
-    { name: "", slug_name: "", brand_image: null, preview: null },
+  const [brands, setBrands] = useState([
+    { name: "", slug: "", brand_image: null, preview: null },
   ]);
-  // Phần xữ lý name slug
+
+  /* =======================
+      HÀM TẠO SLUG
+  ======================== */
   const toSlug = (str) => {
     return str
       .toLowerCase()
-      .normalize("NFD") // bỏ dấu tiếng Việt
+      .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "")
       .replace(/đ/g, "d")
       .replace(/[^a-z0-9\s-]/g, "")
       .trim()
       .replace(/\s+/g, "-");
   };
+
+  /* =======================
+      THÊM BRAND
+  ======================== */
   const addBrand = () => {
-    setBrand([
+    setBrands([
       ...brands,
-      { name: "", slug_name: "", image: null, preview: null }, // thêm brand mới
+      { name: "", slug: "", brand_image: null, preview: null },
     ]);
   };
-  const handleChangeBrand = (brandIndex, value) => {
-    setBrand((prev) =>
+
+  /* =======================
+      XÓA BRAND
+  ======================== */
+  const removeBrand = (index) => {
+    if (brands.length === 1) {
+      alert("Phải có ít nhất 1 thương hiệu");
+      return;
+    }
+
+    const brand = brands[index];
+    if (brand.preview) {
+      URL.revokeObjectURL(brand.preview);
+    }
+
+    setBrands(brands.filter((_, i) => i !== index));
+  };
+
+  /* =======================
+      ĐỔI NAME → AUTO SLUG
+  ======================== */
+  const handleChangeName = (index, value) => {
+    setBrands((prev) =>
       prev.map((b, i) =>
-        i === brandIndex
+        i === index
           ? {
               ...b,
               name: value,
-              slug_name: toSlug(value),
+              slug: toSlug(value),
             }
           : b
       )
     );
   };
 
-  const handleUploadImage = (bIndex, file) => {
-    if (!file) return;
-    const previewUrl = URL.createObjectURL(file);
-    setBrand((prev) =>
+  /* =======================
+      ĐỔI SLUG (CHỈ SLUG)
+  ======================== */
+  const handleChangeSlug = (index, value) => {
+    setBrands((prev) =>
       prev.map((b, i) =>
-        i === bIndex
+        i === index
+          ? {
+              ...b,
+              slug: toSlug(value),
+            }
+          : b
+      )
+    );
+  };
+
+  /* =======================
+      UPLOAD ẢNH + PREVIEW
+  ======================== */
+  const handleUploadImage = (index, file) => {
+    if (!file) return;
+
+    const previewUrl = URL.createObjectURL(file);
+
+    setBrands((prev) =>
+      prev.map((b, i) =>
+        i === index
           ? {
               ...b,
               brand_image: file,
@@ -50,62 +100,122 @@ const AddNewBrand = () => {
       )
     );
   };
-  const removeBrand = (bIndex) => {
-    if (brands.length === 1) {
-      alert("Phải có ít nhất 1 biến thể sản phẩm");
-      return;
-    }
-    const newbrand = brands.filter((_, index) => index !== bIndex);
-    setBrand(newbrand);
-  };
+
+  /* =======================
+      SUBMIT FORM
+  ======================== */
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+
+    // JSON brands
+    formData.append(
+      "brands",
+      new Blob(
+        [
+          JSON.stringify(
+            brands.map((b) => ({
+              name: b.name,
+              slug: b.slug,
+            }))
+          ),
+        ],
+        { type: "application/json" }
+      )
+    );
+
+    // Images
+    brands.forEach((b) => {
+      if (b.brand_image) {
+        formData.append("images", b.brand_image);
+      }
+    });
+
+    try {
+      await axios.post("http://localhost:8080/api/brand", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      alert("Lưu thương hiệu thành công");
+
+      // reset form
+      setBrands([{ name: "", slug: "", brand_image: null, preview: null }]);
+    } catch (error) {
+      console.error(error);
+      alert("Lỗi khi lưu thương hiệu");
+    }
   };
+
+  /* =======================
+      CLEAN PREVIEW KHI UNMOUNT
+  ======================== */
+  useEffect(() => {
+    return () => {
+      brands.forEach((b) => {
+        if (b.preview) URL.revokeObjectURL(b.preview);
+      });
+    };
+  }, [brands]);
+
   return (
-    <div>
-      <button onClick={addBrand}>Thêm Thương hiệu mới</button>
+    <div className="brand-wrapper">
+      <button type="button" onClick={addBrand}>
+        + Thêm thương hiệu
+      </button>
+
       <form onSubmit={handleSubmit}>
-        {brands.map((brand, bIndex) => (
-          <div key={bIndex} className="brand-item">
-            <div className="flex-row">
-              <h3>Thương hiệu {bIndex + 1}</h3>
-              <button type="button" onClick={() => removeBrand(bIndex)}>
+        {brands.map((brand, index) => (
+          <div className="brand-item" key={index}>
+            <div className="brand-header">
+              <h3>Thương hiệu {index + 1}</h3>
+              <button type="button" onClick={() => removeBrand(index)}>
                 Xóa
               </button>
             </div>
-            <div className="brand-content">
+
+            <div className="brand-body">
               <div className="brand-left">
                 <div className="form-groub">
                   <label>Tên thương hiệu</label>
                   <input
+                    type="text"
                     value={brand.name}
-                    onChange={(e) => handleChangeBrand(bIndex, e.target.value)}
+                    onChange={(e) => handleChangeName(index, e.target.value)}
+                    required
                   />
                 </div>
+
                 <div className="form-groub">
-                  <label>Thương hiện slug</label>
+                  <label>Slug</label>
                   <input
-                    value={brand.slug_name}
-                    onChange={(e) => handleChangeBrand(bIndex, e.target.value)}
+                    type="text"
+                    value={brand.slug}
+                    onChange={(e) => handleChangeSlug(index, e.target.value)}
+                    required
                   />
                 </div>
               </div>
+
               <div className="brand-right">
-                <label>Hình ảnh thương hiệu</label>
+                <label>Hình ảnh</label>
+
                 {brand.preview && (
                   <div className="preview">
-                    <img src={brand.preview} alt="Preview" />
+                    <img src={brand.preview} alt="preview" />
                   </div>
                 )}
+
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => handleUploadImage(bIndex, e.target.files[0])}
+                  onChange={(e) => handleUploadImage(index, e.target.files[0])}
                 />
               </div>
             </div>
           </div>
         ))}
+
         <button type="submit">Lưu thương hiệu</button>
       </form>
     </div>
