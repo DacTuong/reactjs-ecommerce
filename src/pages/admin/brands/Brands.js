@@ -14,6 +14,17 @@ const Brands = () => {
     setBrands(res.data);
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Bạn có chắc muốn xóa thương hiệu này không")) return;
+    try {
+      await axios.delete(`http://localhost:8080/api/brand/${id}`);
+      alert("Đã xóa thành công");
+      setBrands((prev) => prev.filter((b) => b.id !== id));
+    } catch (err) {
+      console.error(err);
+      alert("Xoá thất bại");
+    }
+  };
   return (
     <div>
       <Link to="/admin/add-brand">➕ Thêm thương hiệu mới</Link>
@@ -27,6 +38,7 @@ const Brands = () => {
             <th>Hình ảnh</th>
             <th>Tên</th>
             <th>Slug</th>
+            <th>Hoạt động</th>
           </tr>
         </thead>
         <tbody>
@@ -37,7 +49,6 @@ const Brands = () => {
                 {b.image && (
                   <img
                     src={`http://localhost:8080/uploads/brands/${b.image}`}
-                    width="60"
                     height="60"
                     style={{ objectFit: "cover" }}
                   />
@@ -45,6 +56,12 @@ const Brands = () => {
               </td>
               <td>{b.name}</td>
               <td>{b.slug}</td>
+              <td>
+                <Link to={`/admin/edit-brand/${b.id}`}>Sửa</Link>/
+                <button onClick={() => handleDelete(b.id)}>
+                  Xóa {b.id_brand}
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

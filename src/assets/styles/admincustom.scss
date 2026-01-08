@@ -193,6 +193,10 @@
 .brand-right input {
   display: block;
 }
+
+table {
+  width: 100%;
+}
 @media (max-width: 640px) {
   .grid-admin {
     flex-direction: column;

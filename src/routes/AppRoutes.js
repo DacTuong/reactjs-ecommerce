@@ -28,6 +28,7 @@ import Orders from "../pages/admin/Orders";
 import AddProduct from "../pages/admin/products/AddProduct";
 import Brand from "../pages/admin/brands/Brands";
 import AddNewBrand from "../pages/admin/brands/AddNewBrand";
+import EditBrand from "../pages/admin/brands/EditBrand";
 import AssignBrandToCategory from "../pages/admin/brand-categories/AssignBrandToCategory";
 import AddBrandCategories from "../pages/admin/brand-categories/AddBrandCategories";
 import AddCategory from "../pages/admin/categories/AddCategory";
@@ -60,6 +61,8 @@ const AppRoutes = () => {
         <Route path="products" element={<Products />} />
         <Route path="brands" element={<Brand />} />
         <Route path="new-brand" element={<AddNewBrand />} />
+
+        <Route path="edit-brand/:id" element={<EditBrand />} />
         <Route path="new-product" element={<AddProduct />} />
         <Route path="orders" element={<Orders />} />
         <Route path="brand-categories" element={<AssignBrandToCategory />} />
