@@ -1,6 +1,14 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const Categories = () => {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/categories")
+      .then((res) => setCategories(res.data))
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <div>
       <table>
@@ -12,11 +20,13 @@ const Categories = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Điện thoại</td>
-            <td>Ẩn</td>
-          </tr>
+          {categories.map((cate, index) => (
+            <tr key={index}>
+              <td>{cate.idCategory}</td>
+              <td>{cate.categoryName}</td>
+              <td>{cate.categorySlug}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
