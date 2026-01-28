@@ -1,39 +1,25 @@
-import React, { useState } from "react";
-const brands = [
-  { id: 1, brand_name: "samsung" },
-  { id: 2, brand_name: "xiaomi" },
-  { id: 3, brand_name: "samssung" },
-  { id: 4, brand_name: "xiaomii" },
-  { id: 5, brand_name: "Spple" },
-  { id: 6, brand_name: "SPSP" },
-  { id: 7, brand_name: "Spple" },
-];
-const CATEGORY_FIELDS = [
-  {
-    id: 1,
-    value: 1,
-    name: "điện thoại",
-  },
-  {
-    id: 2,
-    value: 2,
-    name: "Laptop",
-  },
-  {
-    id: 3,
-    value: 3,
-    name: "Đồng hồ",
-  },
-  {
-    id: 4,
-    value: 4,
-    name: "Máy tính bảng",
-  },
-];
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const AddBrandCategories = () => {
+  const [brands, setBrands] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedBrands, setSelectedBrands] = useState([""]);
+  useEffect(() => {
+    loadBrands();
+    loadCategory();
+  }, []);
+
+  const loadBrands = async () => {
+    const res = await axios.get("http://localhost:8080/api/brand");
+    setBrands(res.data);
+  };
+
+  const loadCategory = async () => {
+    const res = await axios.get("http://localhost:8080/api/categories");
+    setCategories(res.data);
+  };
   const AddBrand = () => {
     setSelectedBrands([...selectedBrands, ""]);
   };
@@ -71,9 +57,10 @@ const AddBrandCategories = () => {
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            {CATEGORY_FIELDS.map((category) => (
-              <option key={category.id} value={category.value}>
-                {category.name}
+            <option value="">-- Chọn loại sản phẩm --</option>
+            {categories.map((category) => (
+              <option key={category.idCategory} value={category.idCategory}>
+                {category.categoryName}
               </option>
             ))}
           </select>
@@ -94,19 +81,17 @@ const AddBrandCategories = () => {
               onChange={(e) => handleChangeBrand(bIndex, e.target.value)}
             >
               <option value="">-- Chọn thương hiệu --</option>
-              {/* {brands.map((brand) => (
-                <option key={brand.id} value={brand.id}>
-                  {brand.brand_name}
-                </option>
-              ))} */}
+
               {brands
                 .filter(
                   (brand) =>
                     !selectedBrands.includes(brand.id.toString()) ||
-                    brand.id.toString() === brandValue
+                    brand.id.toString() === brandValue,
                 )
                 .map((brand) => (
-                  <option value={brand.id}>{brand.brand_name}</option>
+                  <option key={brand.id} value={brand.id}>
+                    {brand.name}
+                  </option>
                 ))}
             </select>
           </div>
