@@ -1,36 +1,15 @@
-import React from "react";
-const brands = [
-  { id: 1, idcate: 1, brand_name: "samsung" },
-  { id: 2, idcate: 1, brand_name: "xiaomi" },
-  { id: 3, idcate: 2, brand_name: "samssung" },
-  { id: 4, idcate: 2, brand_name: "xiaomii" },
-  { id: 5, idcate: 3, brand_name: "Spple" },
-  { id: 6, idcate: 3, brand_name: "SPSP" },
-  { id: 7, idcate: 4, brand_name: "Spple" },
-];
-const CATEGORY_FIELDS = [
-  {
-    id: 1,
-    value: 1,
-    name: "điện thoại",
-  },
-  {
-    id: 2,
-    value: 2,
-    name: "Laptop",
-  },
-  {
-    id: 3,
-    value: 3,
-    name: "Đồng hồ",
-  },
-  {
-    id: 4,
-    value: 4,
-    name: "Máy tính bảng",
-  },
-];
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+
 const AssignBrandToCategory = () => {
+  const [categoryBrand, setCategoryBrand] = useState([]);
+  useEffect(() => {
+    loadData();
+  }, []);
+  const loadData = async () => {
+    const res = await axios.get("http://localhost:8080/api/category-brand");
+    setCategoryBrand(res.data);
+  };
   return (
     <div>
       AssignBrandToCategory
@@ -43,11 +22,12 @@ const AssignBrandToCategory = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>Điện thoại</td>
-            <td>samsung</td>
-          </tr>
+          {categoryBrand.map((item) => (
+            <tr key={item.id}>
+              <td>{item.category.categoryName}</td>
+              <td>{item.brand.name}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

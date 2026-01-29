@@ -37,7 +37,7 @@ const AddBrandCategories = () => {
     const newBrand = selectedBrands.filter((_, index) => index !== bIndex);
     setSelectedBrands(newBrand);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const data = {
@@ -45,7 +45,17 @@ const AddBrandCategories = () => {
       brand_ids: selectedBrands, // 👈 MẢNG
     };
 
-    console.log(data);
+    try {
+      await axios.post("http://localhost:8080/api/category-brand", data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      alert("Lưu thành công");
+    } catch (error) {
+      console.log(error);
+      alert("Lỗi khi lưu");
+    }
   };
   return (
     <div>
