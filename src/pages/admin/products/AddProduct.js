@@ -2,38 +2,7 @@ import React, { useEffect, useState } from "react";
 import DetailProduct from "../../../components/admin/products/DetailProduct";
 import GeneralInfo from "../../../components/admin/products/GeneralInfo";
 import VariantProduct from "../../../components/admin/products/VariantProduct";
-
-const brands = [
-  { id: 1, idcate: 1, brand: "samsung" },
-  { id: 2, idcate: 1, brand: "xiaomi" },
-  { id: 3, idcate: 2, brand: "samssung" },
-  { id: 4, idcate: 2, brand: "xiaomii" },
-  { id: 5, idcate: 3, brand: "Spple" },
-  { id: 6, idcate: 3, brand: "SPSP" },
-  { id: 7, idcate: 4, brand: "Spple" },
-];
-const CATEGORY_FIELDS = [
-  {
-    id: 1,
-    value: 1,
-    name: "điện thoại",
-  },
-  {
-    id: 2,
-    value: 2,
-    name: "Laptop",
-  },
-  {
-    id: 3,
-    value: 3,
-    name: "Đồng hồ",
-  },
-  {
-    id: 4,
-    value: 4,
-    name: "Máy tính bảng",
-  },
-];
+import axios from "axios";
 
 const CATEGORY_DETAIL_FIELDS = {
   1: [
@@ -64,10 +33,25 @@ const CATEGORY_DETAIL_FIELDS = {
 };
 
 const AddProduct = () => {
+  const [category, setCategory] = useState([]);
+  const [categoryBrand, setCategoryBrand] = useState([]);
+  useEffect(() => {
+    loadCategory();
+    loadData();
+  }, []);
+  const loadCategory = async () => {
+    const res = await axios.get("http://localhost:8080/api/categories");
+    setCategory(res.data);
+  };
+  const loadData = async () => {
+    const res = await axios.get("http://localhost:8080/api/category-brand");
+    setCategoryBrand(res.data);
+  };
+
   const [product, setProduct] = useState({
     product_code: "",
     brand: "",
-    category: 1,
+    category: "",
     product_name: "",
     product_sku: "",
     product_name_slug: "",
@@ -101,9 +85,11 @@ const AddProduct = () => {
   // Phần xữ lý thay đổi thương hiệu theo loại sản phẩm
   const [filteredBrands, setFilteredBrands] = useState([]);
   useEffect(() => {
-    const results = brands.filter((brand) => brand.idcate === product.category);
+    const results = categoryBrand.filter(
+      (brand) => brand.category.idCategory === product.category,
+    );
     setFilteredBrands(results);
-  }, [product.category]);
+  }, [product.category, categoryBrand]);
 
   //Phần xữ lý thêm variant
   const addVariant = () => {
@@ -161,7 +147,7 @@ const AddProduct = () => {
       return;
     }
     const newVariants = product.variants.filter(
-      (_, index) => index !== varianIndex
+      (_, index) => index !== varianIndex,
     );
     setProduct({
       ...product,
@@ -178,7 +164,7 @@ const AddProduct = () => {
     newVariants[variantIndex] = {
       ...newVariants[variantIndex],
       colors: newVariants[variantIndex].colors.filter(
-        (_, index) => index !== cIndex
+        (_, index) => index !== cIndex,
       ),
     };
     setProduct({
@@ -266,7 +252,7 @@ const AddProduct = () => {
       variants: prev.variants.map((variant) => ({
         ...variant,
         colors: variant.colors.map((color) =>
-          color.isAuto ? { ...color, color_sku: sku } : color
+          color.isAuto ? { ...color, color_sku: sku } : color,
         ),
       })),
     }));
@@ -348,7 +334,7 @@ const AddProduct = () => {
             product={product}
             filteredBrands={filteredBrands}
             setProduct={setProduct}
-            categories={CATEGORY_FIELDS}
+            categories={category}
             handleChangeCategory={handleChangeCategory}
             onChangeProductSku={handleChangeProductSku}
             onChangeProductName={handleChangeProductName}

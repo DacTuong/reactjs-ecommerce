@@ -24,6 +24,7 @@ const AssignBrandToCategory = () => {
         <tbody>
           {categoryBrand.map((item) => (
             <tr key={item.id}>
+              <td>{item.id}</td>
               <td>{item.category.categoryName}</td>
               <td>{item.brand.name}</td>
             </tr>

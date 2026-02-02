@@ -28,9 +28,10 @@ const GeneralInfo = ({
         <div className="form-groub">
           <label>Loại sản phẩm</label>
           <select value={product.category} onChange={handleChangeCategory}>
+            <option>==Chọn loại sản phẩm==</option>
             {categories.map((cate) => (
-              <option key={cate.id} value={cate.value}>
-                {cate.name}
+              <option key={cate.idCategory} value={cate.idCategory}>
+                {cate.categoryName}
               </option>
             ))}
           </select>
@@ -46,9 +47,10 @@ const GeneralInfo = ({
               })
             }
           >
-            {filteredBrands.map((brand) => (
-              <option key={brand.id} value={brand.id}>
-                {brand.brand}
+            <option>==Chọn thương hiệu==</option>
+            {filteredBrands.map((item) => (
+              <option key={item.id} value={item.brand.id}>
+                {item.brand.name}
               </option>
             ))}
           </select>
