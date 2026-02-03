@@ -33,6 +33,7 @@ import AssignBrandToCategory from "../pages/admin/brand-categories/AssignBrandTo
 import AddBrandCategories from "../pages/admin/brand-categories/AddBrandCategories";
 import AddCategory from "../pages/admin/categories/AddCategory";
 import Categories from "../pages/admin/categories/Categories";
+import AddNewSeri from "../pages/admin/series/AddNewSeri";
 
 const AppRoutes = () => {
   return (
@@ -63,6 +64,7 @@ const AppRoutes = () => {
         <Route path="new-brand" element={<AddNewBrand />} />
 
         <Route path="edit-brand/:id" element={<EditBrand />} />
+
         <Route path="new-product" element={<AddProduct />} />
         <Route path="orders" element={<Orders />} />
         <Route path="brand-categories" element={<AssignBrandToCategory />} />
@@ -72,6 +74,7 @@ const AppRoutes = () => {
         />
         <Route path="categories" element={<Categories />} />
         <Route path="categories/create" element={<AddCategory />} />
+        <Route path="seri/newseri" element={<AddNewSeri />} />
       </Route>
     </Routes>
   );
