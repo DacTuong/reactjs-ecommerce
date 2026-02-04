@@ -53,11 +53,30 @@ const AddNewSeri = () => {
     const newListSeri = seri.filter((_, index) => index !== seriIndex);
     setSeri(newListSeri);
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("loại sản phẩm", selectedCategory);
-    console.log("thương hiêu", selectedBrand);
-    console.log("danh sách seri", seri);
+    if (!selectedCategory || !selectedBrand) {
+      alert("Vui lòng chọn loại sản phẩm và thương hiệu");
+      return;
+    }
+
+    if (seri.length === 0) {
+      alert("Phải có ít nhất 1 seri");
+      return;
+    }
+    const payload = seri.map((item) => ({
+      category_id: Number(selectedCategory),
+      brand_id: Number(selectedBrand),
+      name_seri: item.nameSeri.trim(),
+    }));
+
+    try {
+      await axios.post("http://localhost:8080/api/seri", payload);
+      alert("Lưu seri thành công");
+    } catch (error) {
+      console.error(error.response?.data);
+      alert(error.response?.data || "Có lỗi xảy ra");
+    }
   };
   return (
     <div>
