@@ -155,7 +155,7 @@ const Sidebar = () => {
             </div>
             {openId === 5 && (
               <div className="sub-menu">
-                <Link to="/admin/">Danh sách loại sản phẩm</Link>
+                <Link to="/admin/seri">Danh sách seri sản phẩm</Link>
                 <Link to="/admin/seri/newseri">Thêm seri mới</Link>
               </div>
             )}

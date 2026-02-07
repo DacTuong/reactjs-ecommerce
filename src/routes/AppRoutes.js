@@ -34,7 +34,8 @@ import AddBrandCategories from "../pages/admin/brand-categories/AddBrandCategori
 import AddCategory from "../pages/admin/categories/AddCategory";
 import Categories from "../pages/admin/categories/Categories";
 import AddNewSeri from "../pages/admin/series/AddNewSeri";
-
+import GetSeri from "../pages/admin/series/GetSeri";
+import EditSeri from "../pages/admin/series/EditSeri";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -74,7 +75,9 @@ const AppRoutes = () => {
         />
         <Route path="categories" element={<Categories />} />
         <Route path="categories/create" element={<AddCategory />} />
+        <Route path="seri" element={<GetSeri />} />
         <Route path="seri/newseri" element={<AddNewSeri />} />
+        <Route path="seri/edit-seri/:id" element={<EditSeri />} />
       </Route>
     </Routes>
   );
