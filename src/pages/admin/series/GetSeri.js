@@ -11,7 +11,12 @@ const GetSeri = () => {
     const res = await axios.get("http://localhost:8080/api/seri");
     setSeri(res.data);
   };
-
+  const handleDeleteSeri = async (id) => {
+    await axios
+      .delete(`http://localhost:8080/api/seri/${id}`)
+      .then((res) => alert(res.data))
+      .catch((err) => console.error(err));
+  };
   return (
     <div>
       <div>
@@ -27,7 +32,7 @@ const GetSeri = () => {
           </thead>
           <tbody>
             {seri.map((item, index) => (
-              <tr>
+              <tr key={index}>
                 <td>{item.idSeri}</td>
                 <td>{item.category.categoryName}</td>
                 <td>{item.brand.name}</td>
@@ -35,7 +40,9 @@ const GetSeri = () => {
 
                 <td>
                   <Link to={`/admin/seri/edit-seri/${item.idSeri}`}>Sửa</Link>/
-                  <button>Xóa</button>
+                  <button onClick={() => handleDeleteSeri(item.idSeri)}>
+                    Xóa
+                  </button>
                 </td>
               </tr>
             ))}

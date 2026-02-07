@@ -18,13 +18,11 @@ const EditSeri = () => {
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    // console.log(seri.nameSeri);
-
     axios
       .put(`http://localhost:8080/api/seri/${id}`, {
-        nameSeri: seri.nameSeri,
+        name_seri: seri.nameSeri,
       })
-      .then(alert("Cập nhật thành công"))
+      .then((res) => alert(res.data))
       .catch((err) => console.error(err));
   };
   if (!seri) return <p>Đang tải dữ liệu...</p>;
@@ -40,11 +38,11 @@ const EditSeri = () => {
 
       <div>
         <div>
-          <labe>Tên Loại sản phẩm</labe>
+          <label>Tên Loại sản phẩm</label>
           <h4>{seri.category.categoryName}</h4>
         </div>
         <div>
-          <labe>Tên thương hiệu</labe>
+          <label>Tên thương hiệu</label>
           <h4>{seri.brand.name}</h4>
         </div>
 
