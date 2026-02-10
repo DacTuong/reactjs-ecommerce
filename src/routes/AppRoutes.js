@@ -36,6 +36,7 @@ import Categories from "../pages/admin/categories/Categories";
 import AddNewSeri from "../pages/admin/series/AddNewSeri";
 import GetSeri from "../pages/admin/series/GetSeri";
 import EditSeri from "../pages/admin/series/EditSeri";
+import AddGroupAttribute from "../pages/admin/group_attribute/AddGroupAttribute";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -73,11 +74,16 @@ const AppRoutes = () => {
           path="brand-categories/create"
           element={<AddBrandCategories />}
         />
+
         <Route path="categories" element={<Categories />} />
         <Route path="categories/create" element={<AddCategory />} />
         <Route path="seri" element={<GetSeri />} />
         <Route path="seri/newseri" element={<AddNewSeri />} />
         <Route path="seri/edit-seri/:id" element={<EditSeri />} />
+        <Route
+          path="group/create-group-attribute"
+          element={<AddGroupAttribute />}
+        />
       </Route>
     </Routes>
   );
