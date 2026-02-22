@@ -6,7 +6,11 @@ const AddGroupAttribute = () => {
   const [data, setData] = useState([
     {
       category_id: "",
-      groups_name: [""],
+      groups_name: [
+        {
+          name_group: "",
+        },
+      ],
     },
   ]);
   const handleAddCategory = () => {
@@ -14,7 +18,11 @@ const AddGroupAttribute = () => {
       ...data,
       {
         category_id: "",
-        groups_name: [""],
+        groups_name: [
+          {
+            name_group: "",
+          },
+        ],
       },
     ]);
   };
@@ -23,7 +31,15 @@ const AddGroupAttribute = () => {
     setData((prev) =>
       prev.map((item, cIdx) =>
         cIdx === categoryIdx
-          ? { ...item, groups_name: [...item.groups_name, ""] }
+          ? {
+              ...item,
+              groups_name: [
+                ...item.groups_name,
+                {
+                  name_group: "",
+                },
+              ],
+            }
           : item,
       ),
     );
@@ -42,7 +58,7 @@ const AddGroupAttribute = () => {
           ? {
               ...item,
               groups_name: item.groups_name.map((g, i) =>
-                i === gIdx ? value : g,
+                i === gIdx ? { ...g, name_group: value } : g,
               ),
             }
           : item,
@@ -103,10 +119,11 @@ const AddGroupAttribute = () => {
               <div key={gIndex}>
                 <label>Tên nhóm</label>
                 <input
-                  value={groupname}
+                  value={groupname.name_group}
                   onChange={(e) =>
                     handleChangeGroupName(index, gIndex, e.target.value)
                   }
+                  placeholder="Nh"
                 />
               </div>
             ))}

@@ -176,9 +176,33 @@ const Sidebar = () => {
             </div>
             {openId === 6 && (
               <div className="sub-menu">
-                <Link to="/admin/seri">Danh sách nhóm attribute</Link>
+                <Link to="/admin/group">Danh sách nhóm attribute</Link>
                 <Link to="/admin/group/create-group-attribute">
                   Thêm nhóm mới
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <div className="nav-item">
+            <div
+              className="nav-link"
+              onClick={() => toggleDropdownID(7)}
+              style={{ cursor: "pointer" }}
+            >
+              <img
+                className="icon-nav"
+                src="https://www.svgrepo.com/show/497144/settings.svg"
+                alt="Settings Icon"
+              />
+              <span className="sidebar-text">Quản lý attribute</span>
+              <span className={`arrow ${openId === 7 ? "rotate" : ""}`}>▾</span>
+            </div>
+            {openId === 7 && (
+              <div className="sub-menu">
+                <Link to="/admin/group">Danh sách attribute</Link>
+                <Link to="/admin/attribute/create-attribute">
+                  Thêm attribute mới
                 </Link>
               </div>
             )}
