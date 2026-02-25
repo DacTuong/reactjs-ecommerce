@@ -154,6 +154,7 @@ const AddNewAttribute = () => {
       id_category: selectedCategory,
       group_attributes: groupAttributes,
     };
+
     try {
       const res = await axios.post(
         "http://localhost:8080/api/attributes",

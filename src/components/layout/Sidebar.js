@@ -200,7 +200,7 @@ const Sidebar = () => {
             </div>
             {openId === 7 && (
               <div className="sub-menu">
-                <Link to="/admin/group">Danh sách attribute</Link>
+                <Link to="/admin/attribute">Danh sách attribute</Link>
                 <Link to="/admin/attribute/create-attribute">
                   Thêm attribute mới
                 </Link>

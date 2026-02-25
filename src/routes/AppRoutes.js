@@ -38,6 +38,7 @@ import GetSeri from "../pages/admin/series/GetSeri";
 import EditSeri from "../pages/admin/series/EditSeri";
 import AddGroupAttribute from "../pages/admin/group_attribute/AddGroupAttribute";
 import GroupAttribute from "../pages/admin/group_attribute/GroupAttribute";
+import Attributes from "../pages/admin/Attribute/Attributes";
 import AddNewAttribute from "../pages/admin/Attribute/AddNewAttribute";
 const AppRoutes = () => {
   return (
@@ -92,6 +93,7 @@ const AppRoutes = () => {
           path="attribute/create-attribute"
           element={<AddNewAttribute />}
         />
+        <Route path="attribute" element={<Attributes />} />
       </Route>
     </Routes>
   );
