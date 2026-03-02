@@ -123,7 +123,7 @@ const AddGroupAttribute = () => {
                   onChange={(e) =>
                     handleChangeGroupName(index, gIndex, e.target.value)
                   }
-                  placeholder="Nh"
+                  placeholder="Nhập tên nhóm thuộc tính"
                 />
               </div>
             ))}

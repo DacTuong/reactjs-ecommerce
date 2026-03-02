@@ -3,13 +3,7 @@ import React, { useEffect, useState } from "react";
 
 const Attributes = () => {
   const [attributes, setAttributes] = useState([]);
-  useEffect(() => {
-    getAttribute();
-  }, []);
-  const getAttribute = async () => {
-    const res = await axios.get("http://localhost:8080/api/attributes");
-    setAttributes(res.data);
-  };
+
   return (
     <div>
       <div>Danh sách thuộc tính</div>
@@ -24,22 +18,16 @@ const Attributes = () => {
           </tr>
         </thead>
         <tbody>
-          {attributes.map((category) =>
-            category.group_attributes.map((group) =>
-              group.attributes.map((attr, index) => (
-                <tr key={attr.id}>
-                  <td>{index + 1}</td>
-                  <td>{attr.category_name}</td>
-                  <td>{attr.name_group}</td>
-                  <td>{attr.name_attribute}</td>
-                  <td>
-                    <button>Sửa</button>
-                    <button>Xoá</button>
-                  </td>
-                </tr>
-              )),
-            ),
-          )}
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <button>Sửa</button> | <button>Xoá</button> |
+              <button>Quản lý</button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>

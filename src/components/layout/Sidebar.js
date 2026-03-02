@@ -176,8 +176,10 @@ const Sidebar = () => {
             </div>
             {openId === 6 && (
               <div className="sub-menu">
-                <Link to="/admin/group">Danh sách nhóm attribute</Link>
-                <Link to="/admin/group/create-group-attribute">
+                <Link to="/admin/group-attributes">
+                  Danh sách nhóm attribute
+                </Link>
+                <Link to="/admin/group-attributes/create-group-attribute">
                   Thêm nhóm mới
                 </Link>
               </div>
