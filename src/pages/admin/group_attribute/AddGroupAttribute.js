@@ -77,7 +77,7 @@ const AddGroupAttribute = () => {
     // console.log(data);
     try {
       const res = await axios.post(
-        "http://localhost:8080/api/attribute-group",
+        "http://localhost:8080/api/group-attributes",
         data,
       );
 

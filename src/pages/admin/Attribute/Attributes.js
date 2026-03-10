@@ -1,33 +1,45 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const Attributes = () => {
   const [attributes, setAttributes] = useState([]);
-
+  const { idGroup } = useParams();
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/groups/${idGroup}/attributes`)
+      .then((res) => setAttributes(res.data))
+      .catch((err) => console.log(err));
+  }, [idGroup]);
   return (
     <div>
       <div>Danh sách thuộc tính</div>
+      <div>
+        <Link
+          to={`/admin/group-attributes/${idGroup}/attributes/create-attribute`}
+        >
+          Thêm thuộc tính
+        </Link>
+      </div>
       <table>
         <thead>
           <tr>
             <th>#</th>
-            <th>Tên loại sản phẩm</th>
-            <th>Tên Nhóm thuộc tính</th>
             <th>Tên Thuộc tính</th>
             <th>Hành động</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              <button>Sửa</button> | <button>Xoá</button> |
-              <button>Quản lý</button>
-            </td>
-          </tr>
+          {attributes.map((attribute) => (
+            <tr>
+              <td></td>
+              <td>{attribute.name_attribute}</td>
+              <td>
+                <button>Sửa</button> | <button>Xoá</button> |
+                <button>Quản lý giá trị thuộc tính</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

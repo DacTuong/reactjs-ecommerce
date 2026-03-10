@@ -90,11 +90,11 @@ const AppRoutes = () => {
         />
         <Route path="group-attributes" element={<GroupAttribute />} />
         <Route
-          path="group-attributes/:groupId/attributes"
+          path="group-attributes/:idGroup/attributes"
           element={<Attributes />}
         />
         <Route
-          path="attribute/create-attribute"
+          path="group-attributes/:idGroup/attributes/create-attribute"
           element={<AddNewAttribute />}
         />
         <Route path="attribute-value" element={<AddAttributeValue />} />

@@ -10,7 +10,7 @@ const GroupAttribute = () => {
   }, []);
 
   const loadGroup = async () => {
-    const res = await axios.get("http://localhost:8080/api/attribute-group");
+    const res = await axios.get("http://localhost:8080/api/group-attributes");
     setGroups(res.data);
   };
 
