@@ -22,6 +22,9 @@ const GroupAttribute = () => {
   );
   return (
     <div>
+      <div className="breadcrum">
+        <Link to="/admin">Trang chủ</Link>
+      </div>
       <table border="1" cellPadding="8">
         <thead>
           <tr>

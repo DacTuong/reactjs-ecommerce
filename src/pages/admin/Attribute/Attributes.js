@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 
 const Attributes = () => {
   const [attributes, setAttributes] = useState([]);
+  const [nameGroup, setNameGroup] = useState("");
   const { idGroup } = useParams();
   useEffect(() => {
     axios
@@ -11,8 +12,22 @@ const Attributes = () => {
       .then((res) => setAttributes(res.data))
       .catch((err) => console.log(err));
   }, [idGroup]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/group-attributes/${idGroup}/attributes`)
+      .then((res) => setNameGroup(res.data.name_group))
+      .catch((err) => console.log(err));
+  }, [idGroup]);
   return (
     <div>
+      <div className="breadcrum">
+        <Link to="/admin">Trang chủ</Link>
+        ||{" "}
+        <Link to={`/admin/group-attributes/${idGroup}/attributes`}>
+          {nameGroup}
+        </Link>
+      </div>
       <div>Danh sách thuộc tính</div>
       <div>
         <Link

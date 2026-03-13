@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const AddNewAttribute = () => {
   const [group, setGroup] = useState(null);
   const { idGroup } = useParams();
+  const [nameGroup, setNameGroup] = useState("");
+
   const [attributes, setAttributes] = useState([
     {
       name_attribute: "",
@@ -65,13 +67,25 @@ const AddNewAttribute = () => {
     }
     setAttributes(attributes.filter((_, aIdx) => aIdx !== attributeIdx));
   };
-
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/group-attributes/${idGroup}/attributes`)
+      .then((res) => setNameGroup(res.data.name_group))
+      .catch((err) => console.log(err));
+  }, [idGroup]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = {};
   };
   return (
     <div>
+      <div className="breadcrum">
+        <Link to="/admin">Trang chủ</Link>
+        ||{" "}
+        <Link to={`/admin/group-attributes/${idGroup}/attributes`}>
+          {nameGroup}
+        </Link>
+      </div>
       <h3>Loại sản phẩm: {group?.category?.categoryName}</h3>
       <h4>Nhóm: {group?.nameGroup}</h4>
       <h5>Thêm mới thuộc tính</h5>
