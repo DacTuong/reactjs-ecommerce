@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-
+import AddAttributeModal from "../../../components/admin/modals/AddAttributeModal";
 const Attributes = () => {
   const [attributes, setAttributes] = useState([]);
   const [nameGroup, setNameGroup] = useState("");
   const { idGroup } = useParams();
+
+  const [showAddAttribute, setShowAddAttribute] = useState(false);
   useEffect(() => {
     axios
       .get(`http://localhost:8080/api/groups/${idGroup}/attributes`)
@@ -30,11 +32,17 @@ const Attributes = () => {
       </div>
       <div>Danh sách thuộc tính</div>
       <div>
-        <Link
-          to={`/admin/group-attributes/${idGroup}/attributes/create-attribute`}
+        <AddAttributeModal
+          show={showAddAttribute}
+          handleClose={() => setShowAddAttribute(false)}
+          idGroup={idGroup}
+        ></AddAttributeModal>
+        <button
+          className="btn btn-primary"
+          onClick={() => setShowAddAttribute(true)}
         >
-          Thêm thuộc tính
-        </Link>
+          + Thêm thuộc tính
+        </button>
       </div>
       <table>
         <thead>
