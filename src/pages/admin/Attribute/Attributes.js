@@ -8,19 +8,22 @@ const Attributes = () => {
   const { idGroup } = useParams();
 
   const [showAddAttribute, setShowAddAttribute] = useState(false);
+  // Lấy Tên nhóm attribute
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/groups/${idGroup}/attributes`)
+      .get(`http://localhost:8080/api/group-attributes/${idGroup}/info`)
+      .then((res) => setNameGroup(res.data.name_group))
+      .catch((err) => console.log(err));
+  }, [idGroup]);
+
+  // Lấy danh sách các attribute
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/group-attributes/${idGroup}/attributes`)
       .then((res) => setAttributes(res.data))
       .catch((err) => console.log(err));
   }, [idGroup]);
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/group-attributes/${idGroup}/attributes`)
-      .then((res) => setNameGroup(res.data.name_group))
-      .catch((err) => console.log(err));
-  }, [idGroup]);
   return (
     <div>
       <div className="breadcrum">
@@ -53,9 +56,9 @@ const Attributes = () => {
           </tr>
         </thead>
         <tbody>
-          {attributes.map((attribute) => (
-            <tr>
-              <td></td>
+          {attributes.map((attribute, index) => (
+            <tr key={index}>
+              <td>{index + 1}</td>
               <td>{attribute.name_attribute}</td>
               <td>
                 <button>Sửa</button> | <button>Xoá</button> |

@@ -1,60 +1,44 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
 
 const AddNewAttribute = ({ show, handleClose, idGroup, onSuccess }) => {
-  const [group, setGroup] = useState(null);
   const [nameGroup, setNameGroup] = useState("");
-
   const [attributes, setAttributes] = useState([
     {
       name_attribute: "",
       data_type: "",
+      is_filter: 0,
     },
   ]);
 
-  const AddNewAttribute = () => {
+  const handleAddRowAttribute = () => {
     setAttributes([
       ...attributes,
-      [
-        {
-          name_attribute: "",
-          data_type: "",
-        },
-      ],
+      {
+        name_attribute: "",
+        data_type: "",
+        is_filter: 0,
+      },
     ]);
   };
 
-  // const hanldeChangeAttribute = (groupAttributeIdx, attributeIdx, value) => {
-  //   setGroupAttributes((prev) =>
-  //     prev.map((gItem, gaIdx) =>
-  //       gaIdx === groupAttributeIdx
-  //         ? {
-  //             ...gItem,
-  //             attributes: gItem.attributes.map((a, i) =>
-  //               i === attributeIdx ? { ...a, name_attribute: value } : a,
-  //             ),
-  //           }
-  //         : gItem,
-  //     ),
-  //   );
-  // };
+  const hanldeChangeAttribute = (attributeIdx, value) => {
+    const newNameAttribute = [...attributes];
+    newNameAttribute[attributeIdx].name_attribute = value;
+    setAttributes(newNameAttribute);
+  };
 
-  // const handleChangeDataType = (groupAttributeIdx, attributeIdx, value) => {
-  //   setGroupAttributes((prev) =>
-  //     prev.map((gItem, gIdx) =>
-  //       gIdx === groupAttributeIdx
-  //         ? {
-  //             ...gItem,
-  //             attributes: gItem.attributes.map((d, i) =>
-  //               i === attributeIdx ? { ...d, data_type: value } : d,
-  //             ),
-  //           }
-  //         : gItem,
-  //     ),
-  //   );
-  // };
+  const handleChangeDataType = (attributeIdx, value) => {
+    const changeDataType = [...attributes];
+    changeDataType[attributeIdx].data_type = value;
+    setAttributes(changeDataType);
+  };
 
+  const handleIsFilter = (attributeIdx, value) => {
+    const isFilter = [...attributes];
+    isFilter[attributeIdx].is_filter = value;
+    setAttributes(isFilter);
+  };
   const removeAttribute = (attributeIdx) => {
     if (attributes.length === 1) {
       alert("Phải có ít nhất 1 thuộc tính");
@@ -71,10 +55,33 @@ const AddNewAttribute = ({ show, handleClose, idGroup, onSuccess }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    for (let i = 0; i < attributes.length; i++) {
+      const attr = attributes[i];
+      if (!attr.name_attribute.trim()) {
+        alert(`Dòng ${i + 1} : Vui lòng nhập tên thuộc tính`);
+        return;
+      }
+      if (!attr.data_type.trim()) {
+        alert(`Dòng ${i + 1} : Vui lòng chọn loại dữ liệu`);
+        return;
+      }
+    }
     const payload = {
       attributes: attributes,
     };
     console.log(payload);
+
+    try {
+      await axios.post(
+        `http://localhost:8080/api/group-attributes/${idGroup}/attributes`,
+        attributes,
+      );
+      alert("Lưu  thành công");
+    } catch (error) {
+      console.error(error.response?.data);
+      alert(error.response?.data || "Có lỗi xảy ra");
+    }
   };
   // QUAN TRỌNG: Nếu show là false thì không hiển thị gì cả
   if (!show) return null;
@@ -88,38 +95,77 @@ const AddNewAttribute = ({ show, handleClose, idGroup, onSuccess }) => {
         <h5>Thêm mới thuộc tính</h5>
         <form onSubmit={handleSubmit}>
           <div className="border-form">
-            <button type="button" onClick={() => AddNewAttribute()}>
+            <button type="button" onClick={() => handleAddRowAttribute()}>
               Thêm thuộc tính
             </button>
 
-            {attributes.map((attribute, indexAttribute) => (
-              <div className="border-form" key={indexAttribute}>
-                <div className="section-header">
-                  <h5>Thuộc tính </h5>
-                  <button
-                    type="button"
-                    onClick={() => removeAttribute(indexAttribute)}
-                  >
-                    Xóa
-                  </button>
-                </div>
-                <div className="flex-row">
-                  <div className="form-groub">
-                    <label>Tên attribute</label>
-                    <input placeholder="Nhập tên attribute" />
-                  </div>
-                  <div className="form-groub">
-                    <label>Chọn loại input</label>
-                    <select>
-                      <option value="">==Chọn loại input==</option>
-                      <option value="text">Text</option>
-                      <option value="number">Number</option>
-                      <option value="check-box">checkbox</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <table className="attribute-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Tên thuộc tính</th>
+                  <th>Loại dữ liệu</th>
+                  <th>Lọc</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {attributes.map((attribute, index) => (
+                  <tr key={index}>
+                    <td>{index + 1}</td>
+
+                    <td>
+                      <input
+                        placeholder="Nhập tên..."
+                        value={attribute.name_attribute || ""}
+                        onChange={(e) =>
+                          hanldeChangeAttribute(index, e.target.value)
+                        }
+                      />
+                    </td>
+
+                    <td>
+                      <select
+                        value={attribute.data_type || ""}
+                        onChange={(e) =>
+                          handleChangeDataType(
+                            index,
+
+                            e.target.value,
+                          )
+                        }
+                      >
+                        <option value="">Chọn</option>
+                        <option value="text">Text</option>
+                        <option value="number">Number</option>
+                        <option value="check-box">Checkbox</option>
+                      </select>
+                    </td>
+
+                    <td>
+                      <input
+                        type="checkbox"
+                        checked={attribute.is_filter === 1}
+                        onChange={(e) =>
+                          handleIsFilter(index, e.target.checked ? 1 : 0)
+                        }
+                      />
+                    </td>
+
+                    <td>
+                      <button
+                        type="button"
+                        className="btn-delete"
+                        onClick={() => removeAttribute(index)}
+                      >
+                        Xóa
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
           <button type="submit">Lưu dữ liệu</button>
