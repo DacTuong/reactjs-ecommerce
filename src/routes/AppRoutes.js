@@ -39,8 +39,7 @@ import EditSeri from "../pages/admin/series/EditSeri";
 import AddGroupAttribute from "../pages/admin/group_attribute/AddGroupAttribute";
 import GroupAttribute from "../pages/admin/group_attribute/GroupAttribute";
 import Attributes from "../pages/admin/Attribute/Attributes";
-
-import AddAttributeValue from "../pages/admin/AttributeValue/AddAttributeValue";
+import AttributeValuePage from "../pages/admin/AttributeValue/AttributeValuePage";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -93,8 +92,10 @@ const AppRoutes = () => {
           path="group-attributes/:idGroup/attributes"
           element={<Attributes />}
         />
-
-        <Route path="attribute-value" element={<AddAttributeValue />} />
+        <Route
+          path="group-attributes/:idGroup/attributes/:idAttribute/values"
+          element={<AttributeValuePage />}
+        />
       </Route>
     </Routes>
   );

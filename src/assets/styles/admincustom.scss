@@ -1,11 +1,17 @@
 .grid-admin {
   display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+}
+.nav-sidebar {
+  min-height: 100vh;
+  background-color: red;
 }
 .sidebar {
   width: 250px;
   background-color: #1a2035; /* Dark background similar to the image */
   color: #ffffff;
-  height: 100vh;
+  min-height: 100vh;
   padding: 20px 0;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
 }

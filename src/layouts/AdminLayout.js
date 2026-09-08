@@ -8,7 +8,7 @@ import "../assets/styles/bootstrap.scss"; // đường dẫn SCSS
 const AdminLayout = () => {
   return (
     <div className="grid-admin">
-      <div>
+      <div className="nav-sidebar">
         <Sidebar />
       </div>
       <div className="wrap-admin">

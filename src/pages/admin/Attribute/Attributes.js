@@ -16,7 +16,7 @@ const Attributes = () => {
       .catch((err) => console.log(err));
   }, [idGroup]);
 
-  // Lấy danh sách các attribute
+  // Lấy danh sách các attributes
   useEffect(() => {
     axios
       .get(`http://localhost:8080/api/group-attributes/${idGroup}/attributes`)
@@ -28,7 +28,7 @@ const Attributes = () => {
     <div>
       <div className="breadcrum">
         <Link to="/admin">Trang chủ</Link>
-        ||{" "}
+        ||
         <Link to={`/admin/group-attributes/${idGroup}/attributes`}>
           {nameGroup}
         </Link>
@@ -62,7 +62,11 @@ const Attributes = () => {
               <td>{attribute.name_attribute}</td>
               <td>
                 <button>Sửa</button> | <button>Xoá</button> |
-                <button>Quản lý giá trị thuộc tính</button>
+                <Link
+                  to={`/admin/group-attributes/${idGroup}/attributes/${attribute.id_attribute}/values`}
+                >
+                  Quản lý giá trị thuộc tính
+                </Link>
               </td>
             </tr>
           ))}

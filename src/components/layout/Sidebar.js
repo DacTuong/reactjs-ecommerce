@@ -7,7 +7,7 @@ const Sidebar = () => {
     setOpenId(openId === id ? null : id);
   };
   return (
-    <div>
+    <div className="navbar">
       <nav className="navbar-cls-top">
         <div className="navbar-header">
           <a href="#" className="logo">
