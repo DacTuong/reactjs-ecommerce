@@ -4,18 +4,32 @@
   min-height: 100vh;
 }
 .nav-sidebar {
-  min-height: 100vh;
-  background-color: red;
+  flex: 0 0 250px;
+  background-color: #1a2035;
+  color: #ffffff;
+  min-height: 100%;
 }
 .sidebar {
-  width: 250px;
-  background-color: #1a2035; /* Dark background similar to the image */
-  color: #ffffff;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100%;
   padding: 20px 0;
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
 }
-
+.wrap-admin {
+  padding: 15px 15px;
+  background-color: #847e7e;
+  width: 100%;
+  flex: 1;
+  min-width: 0;
+  min-height: 600px;
+}
+.page-inner {
+  width: 100%;
+  margin: 0px 20px 10px 0px;
+  background-color: #fff !important;
+  padding: 10px;
+  min-height: 100%;
+}
 .sidebar-column.nav {
   display: flex;
   flex-direction: column;

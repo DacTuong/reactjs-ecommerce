@@ -14,7 +14,7 @@ const VariantProduct = ({
     <div className="variant-product">
       <h3>Thêm biến thể sản phẩm</h3>
       <button onClick={addVariant} type="button">
-        Thêm biến thể
+        Thêm phiên bản
       </button>
       {variants.map((variant, vIndex) => (
         <div key={vIndex} className="variant-box">

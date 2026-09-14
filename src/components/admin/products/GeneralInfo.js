@@ -26,9 +26,20 @@ const GeneralInfo = ({
       </div>
       <div className="flex-row">
         <div className="form-groub">
-          <label>Loại sản phẩm</label>
+          <label>Danh mục</label>
           <select value={product.category} onChange={handleChangeCategory}>
-            <option>==Chọn loại sản phẩm==</option>
+            <option>==Chọn Danh mục==</option>
+            {categories.map((cate) => (
+              <option key={cate.idCategory} value={cate.idCategory}>
+                {cate.categoryName}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-groub">
+          <label>Phân loại</label>
+          <select value={product.category} onChange={handleChangeCategory}>
+            <option>==Chọn phân loại ==</option>
             {categories.map((cate) => (
               <option key={cate.idCategory} value={cate.idCategory}>
                 {cate.categoryName}
@@ -75,16 +86,6 @@ const GeneralInfo = ({
           onChange={(e) =>
             setProduct({ ...product, product_name_slug: e.target.value })
           }
-          className=""
-        />
-      </div>
-      <div className="form-groub">
-        <label>Mã SKU</label>
-        <input
-          type="text"
-          id="code_sku"
-          value={product.product_sku}
-          onChange={(e) => onChangeProductSku(e.target.value)}
           className=""
         />
       </div>
