@@ -13,38 +13,87 @@ const AddAttributeValueModal = ({
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/group-attributes/${idGroup}/attributes`)
+      .get(`http://localhost:8080/api/group-attributes/${idGroup}/info`)
       .then((res) => setNameGroup(res.data.name_group))
       .catch((err) => console.log(err));
   }, [idGroup]);
 
   const handleAddRow = () => {
-    if (attributeValues.length === 10) {
+    if (attributeValues.value_attributes.length === 10) {
       alert("Một lần chỉ có thể thêm 10 giá trị!");
       return;
     }
-    setAttributeValues([
-      ...attributeValues,
-      {
-        value_attribute: "",
-      },
-    ]);
+    setAttributeValues((prev) => ({
+      ...prev,
+      value_attributes: [...prev.value_attributes, ""],
+    }));
   };
 
   const handleDeleteValueAttribute = (index) => {
-    if (attributeValues.length === 1) {
+    if (attributeValues.value_attributes.length === 1) {
       alert("Bắt buộc phải có 1 giá trị thuộc tính");
       return;
     }
-    setAttributeValues(attributeValues.filter((_, vAIDx) => vAIDx === index));
+    setAttributeValues((prev) => ({
+      ...prev,
+      value_attributes: prev.value_attributes.filter((_, i) => i !== index),
+    }));
   };
+
   const handleChangeValueAttribute = (index, value) => {
-    const newValueAttribute = [...attributeValues];
-    newValueAttribute[index].value_attribute = value;
-    setAttributeValues(newValueAttribute);
+    setAttributeValues((prev) => ({
+      ...prev,
+      value_attributes: prev.value_attributes.map((v, i) =>
+        i === index ? value : v,
+      ),
+    }));
   };
-  const handleSubmit = () => {
-    console.log(attributeValues);
+
+  // const validAttributeValue = () => {
+  //   const isValid = attributeValues.every((item) =>
+  //     item.value.every((value) => value.trim() !== ""),
+  //   );
+
+  //   if (!isValid) {
+  //     alert("vui lòng nhập đầy đủ các tin dòng");
+  //     return false;
+  //   }
+  //   return true;
+  // };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // if (!validAttributeValue()) {
+    //   return;
+    // }
+    // console.log(attributeValues);
+    try {
+      await axios.post(
+        "http://localhost:8080/api/attribute-values",
+        attributeValues,
+      );
+      alert("Lưu thành công");
+      // reset form
+      // setBrands([{ name: "", slug: "", brand_image: null, preview: null }]);
+    } catch (error) {
+      console.error(error);
+      alert("Lỗi khi lưu");
+    }
+    // console.log("1. Bắt đầu gửi request");
+    // console.log("2. Dữ liệu chuẩn bị gửi:", attributeValues);
+
+    // try {
+    //   const response = await axios.post(
+    //     "http://localhost:8080/api/attribute-values",
+    //     attributeValues,
+    //   );
+
+    //   console.log("3. Backend phản hồi:", response.status);
+    //   console.log("4. Dữ liệu backend trả về:", response.data);
+    // } catch (error) {
+    //   console.error("Lỗi gửi API:", error);
+    //   console.error("Phản hồi lỗi:", error.response?.data);
+    // }
   };
   if (!show) return null;
   return (
@@ -74,17 +123,17 @@ const AddAttributeValueModal = ({
               </thead>
 
               <tbody>
-                {attributeValues.map((attributeValue, index) => (
-                  <tr>
+                {attributeValues.value_attributes.map((value, index) => (
+                  <tr key={index}>
                     <td>{index + 1}</td>
-
                     <td>
                       <input
-                        placeholder="Nhập tên..."
-                        value={attributeValue.value_attribute || ""}
+                        placeholder="Nhập giá trị..."
+                        value={value}
                         onChange={(e) =>
                           handleChangeValueAttribute(index, e.target.value)
                         }
+                        required
                       />
                     </td>
 

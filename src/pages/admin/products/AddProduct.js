@@ -35,18 +35,18 @@ const CATEGORY_DETAIL_FIELDS = {
 const AddProduct = () => {
   const [category, setCategory] = useState([]);
   const [categoryBrand, setCategoryBrand] = useState([]);
-  useEffect(() => {
-    loadCategory();
-    loadData();
-  }, []);
-  const loadCategory = async () => {
-    const res = await axios.get("http://localhost:8080/api/categories");
-    setCategory(res.data);
-  };
-  const loadData = async () => {
-    const res = await axios.get("http://localhost:8080/api/category-brand");
-    setCategoryBrand(res.data);
-  };
+  // useEffect(() => {
+  //   loadCategory();
+  //   loadData();
+  // }, []);
+  // const loadCategory = async () => {
+  //   const res = await axios.get("http://localhost:8080/api/categories");
+  //   setCategory(res.data);
+  // };
+  // const loadData = async () => {
+  //   const res = await axios.get("http://localhost:8080/api/category-brand");
+  //   setCategoryBrand(res.data);
+  // };
 
   const [product, setProduct] = useState({
     product_code: "",

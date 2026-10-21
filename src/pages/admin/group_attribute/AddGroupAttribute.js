@@ -74,18 +74,19 @@ const AddGroupAttribute = () => {
 
   const handelSendData = async (e) => {
     e.preventDefault();
-    // console.log(data);
-    try {
-      const res = await axios.post(
-        "http://localhost:8080/api/group-attributes",
-        data,
-      );
+    console.log(data);
 
-      alert(res.data);
-    } catch (err) {
-      console.log(err);
-      alert("Lỗi khi lưu");
-    }
+    // try {
+    //   const res = await axios.post(
+    //     "http://localhost:8080/api/group-attributes",
+    //     data,
+    //   );
+
+    //   alert(res.data);
+    // } catch (err) {
+    //   console.log(err);
+    //   alert("Lỗi khi lưu");
+    // }
   };
   return (
     <div>

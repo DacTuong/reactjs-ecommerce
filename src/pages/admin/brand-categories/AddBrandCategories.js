@@ -44,18 +44,18 @@ const AddBrandCategories = () => {
       category_id: selectedCategory,
       brand_ids: selectedBrands, // 👈 MẢNG
     };
-
-    try {
-      await axios.post("http://localhost:8080/api/category-brand", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      alert("Lưu thành công");
-    } catch (error) {
-      console.log(error);
-      alert("Lỗi khi lưu");
-    }
+    console.log(data);
+    // try {
+    //   await axios.post("http://localhost:8080/api/category-brand", data, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
+    //   alert("Lưu thành công");
+    // } catch (error) {
+    //   console.log(error);
+    //   alert("Lỗi khi lưu");
+    // }
   };
   return (
     <div>
