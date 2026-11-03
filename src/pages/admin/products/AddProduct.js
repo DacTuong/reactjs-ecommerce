@@ -4,49 +4,367 @@ import GeneralInfo from "../../../components/admin/products/GeneralInfo";
 import VariantProduct from "../../../components/admin/products/VariantProduct";
 import axios from "axios";
 
+// const CATEGORY_DETAIL_FIELDS = {
+//   1: [
+//     { key: "operation", label: "Hệ điều hành" },
+//     { key: "screen", label: "Màn hình" },
+//     { key: "cpu", label: "CPU" },
+//     { key: "ram", label: "RAM" },
+//     { key: "storage", label: "Bộ nhớ" },
+//     { key: "battery", label: "Pin" },
+//     { key: "camera", label: "Camera" },
+//   ],
+//   2: [
+//     { key: "cpu", label: "CPU" },
+//     { key: "gpu", label: "GPU" },
+//     { key: "ram", label: "RAM" },
+//     { key: "storage", label: "Ổ cứng" },
+//     { key: "screen", label: "Màn hình" },
+//     { key: "battery", label: "Pin" },
+//   ],
+//   3: [
+//     { key: "screen", label: "Màn hình" },
+//     { key: "battery", label: "Pin" },
+//     { key: "storage", label: "Bộ nhớ" },
+//   ],
+//   4: [
+//     { key: "material", label: "Chất liệu" },
+//     { key: "compatibility", label: "Tương thích" },
+//   ],
+// };
+
 const CATEGORY_DETAIL_FIELDS = {
+  // ==========================================
+  // 1: ĐIỆN THOẠI
+  // ==========================================
   1: [
-    { key: "screen", label: "Màn hình" },
-    { key: "cpu", label: "CPU" },
-    { key: "ram", label: "RAM" },
-    { key: "storage", label: "Bộ nhớ" },
-    { key: "battery", label: "Pin" },
-    { key: "camera", label: "Camera" },
+    {
+      key: "operation",
+      label: "Hệ điều hành",
+      type: "select",
+      options: [
+        {
+          value: "android",
+          label: "Android",
+          children: [
+            { value: "android_12", label: "Android 12" },
+            { value: "android_13", label: "Android 13" },
+            { value: "android_14", label: "Android 14" },
+            { value: "android_15", label: "Android 15" },
+          ],
+        },
+        {
+          value: "ios",
+          label: "iOS",
+          children: [
+            { value: "ios_16", label: "iOS 16" },
+            { value: "ios_17", label: "iOS 17" },
+            { value: "ios_18", label: "iOS 18" },
+          ],
+        },
+      ],
+    },
+    {
+      key: "cpu",
+      label: "Chip xử lý (CPU)",
+      type: "select",
+      options: [
+        {
+          value: "apple_bionic",
+          label: "Apple A-Series",
+          children: [
+            { value: "a15_bionic", label: "Apple A15 Bionic" },
+            { value: "a16_bionic", label: "Apple A16 Bionic" },
+            { value: "a17_pro", label: "Apple A17 Pro" },
+            { value: "a18_pro", label: "Apple A18 Pro" },
+          ],
+        },
+        {
+          value: "snapdragon",
+          label: "Qualcomm Snapdragon",
+          children: [
+            { value: "snap_8_gen_2", label: "Snapdragon 8 Gen 2" },
+            { value: "snap_8_gen_3", label: "Snapdragon 8 Gen 3" },
+            { value: "snap_7_gen_3", label: "Snapdragon 7 Gen 3" },
+          ],
+        },
+        {
+          value: "mediatek",
+          label: "MediaTek Dimensity",
+          children: [
+            { value: "dimensity_9200", label: "Dimensity 9200" },
+            { value: "dimensity_9300", label: "Dimensity 9300" },
+          ],
+        },
+      ],
+    },
+    {
+      key: "screen",
+      label: "Màn hình",
+      type: "checkbox",
+      options: [
+        {
+          value: "panel_type",
+          label: "Công nghệ màn hình",
+          children: [
+            { value: "oled", label: "OLED" },
+            { value: "amoled", label: "AMOLED / Super AMOLED" },
+            { value: "ips_lcd", label: "IPS LCD" },
+          ],
+        },
+        {
+          value: "refresh_rate",
+          label: "Tần số quét",
+          children: [
+            { value: "60hz", label: "60 Hz" },
+            { value: "90hz", label: "90 Hz" },
+            { value: "120hz", label: "120 Hz" },
+          ],
+        },
+      ],
+    },
   ],
+
+  // ==========================================
+  // 2: LAPTOP
+  // ==========================================
   2: [
-    { key: "cpu", label: "CPU" },
-    { key: "gpu", label: "GPU" },
-    { key: "ram", label: "RAM" },
-    { key: "storage", label: "Ổ cứng" },
-    { key: "screen", label: "Màn hình" },
-    { key: "battery", label: "Pin" },
+    {
+      key: "cpu",
+      label: "Vi xử lý (CPU)",
+      type: "select",
+      options: [
+        {
+          value: "intel",
+          label: "Intel Core",
+          children: [
+            { value: "intel_i3", label: "Core i3" },
+            { value: "intel_i5", label: "Core i5" },
+            { value: "intel_i7", label: "Core i7" },
+            { value: "intel_i9", label: "Core i9" },
+            { value: "intel_ultra_7", label: "Core Ultra 7" },
+          ],
+        },
+        {
+          value: "amd",
+          label: "AMD Ryzen",
+          children: [
+            { value: "ryzen_5", label: "Ryzen 5" },
+            { value: "ryzen_7", label: "Ryzen 7" },
+            { value: "ryzen_9", label: "Ryzen 9" },
+          ],
+        },
+        {
+          value: "apple_silicon",
+          label: "Apple Silicon",
+          children: [
+            { value: "apple_m1", label: "Apple M1" },
+            { value: "apple_m2", label: "Apple M2" },
+            { value: "apple_m3", label: "Apple M3" },
+            { value: "apple_m4", label: "Apple M4" },
+          ],
+        },
+      ],
+    },
+    {
+      key: "gpu",
+      label: "Card đồ họa (GPU)",
+      type: "select",
+      options: [
+        {
+          value: "integrated",
+          label: "Card tích hợp",
+          children: [
+            { value: "intel_iris_xe", label: "Intel Iris Xe" },
+            { value: "amd_radeon", label: "AMD Radeon Graphics" },
+          ],
+        },
+        {
+          value: "nvidia",
+          label: "NVIDIA GeForce RTX",
+          children: [
+            { value: "rtx_3050", label: "RTX 3050" },
+            { value: "rtx_4050", label: "RTX 4050" },
+            { value: "rtx_4060", label: "RTX 4060" },
+            { value: "rtx_4070", label: "RTX 4070" },
+          ],
+        },
+      ],
+    },
+    {
+      key: "screen",
+      label: "Màn hình",
+      type: "select",
+      options: [
+        {
+          value: "size",
+          label: "Kích thước màn hình",
+          children: [
+            { value: "13_3_inch", label: "13.3 inch" },
+            { value: "14_0_inch", label: "14.0 inch" },
+            { value: "15_6_inch", label: "15.6 inch" },
+            { value: "16_0_inch", label: "16.0 inch" },
+          ],
+        },
+        {
+          value: "resolution",
+          label: "Độ phân giải",
+          type: "",
+          children: [
+            { value: "fhd", label: "Full HD (1920x1080)" },
+            { value: "2k", label: "2K / QHD" },
+            { value: "4k", label: "4K / UHD" },
+          ],
+        },
+      ],
+    },
+    {
+      key: "ram",
+      label: "Dung lượng RAM",
+      type: "checkbox",
+      options: [
+        { value: "8gb", label: "8 GB" },
+        { value: "16gb", label: "16 GB" },
+        { value: "32gb", label: "32 GB" },
+        { value: "64gb", label: "64 GB" },
+      ],
+    },
+    {
+      key: "storage",
+      label: "Ổ cứng (Storage)",
+      type: "checkbox",
+      options: [
+        { value: "ssd_256gb", label: "256 GB SSD" },
+        { value: "ssd_512gb", label: "512 GB SSD" },
+        { value: "ssd_1tb", label: "1 TB SSD" },
+        { value: "ssd_2tb", label: "2 TB SSD" },
+      ],
+    },
   ],
+
+  // ==========================================
+  // 3: MÁY TÍNH BẢNG (TABLET)
+  // ==========================================
   3: [
-    { key: "screen", label: "Màn hình" },
-    { key: "battery", label: "Pin" },
-    { key: "storage", label: "Bộ nhớ" },
+    {
+      key: "operation",
+      label: "Hệ điều hành",
+      type: "select",
+      options: [
+        {
+          value: "ipados",
+          label: "iPadOS",
+          children: [
+            { value: "ipados_16", label: "iPadOS 16" },
+            { value: "ipados_17", label: "iPadOS 17" },
+            { value: "ipados_18", label: "iPadOS 18" },
+          ],
+        },
+        {
+          value: "android",
+          label: "Android",
+          children: [
+            { value: "android_13", label: "Android 13" },
+            { value: "android_14", label: "Android 14" },
+          ],
+        },
+      ],
+    },
+    {
+      key: "connectivity",
+      label: "Kết nối mạng",
+      type: "select",
+      options: [
+        { value: "wifi_only", label: "Chỉ Wi-Fi" },
+        { value: "wifi_cellular", label: "Wi-Fi + 5G / Cellular" },
+      ],
+    },
+    {
+      key: "screen",
+      label: "Màn hình",
+      type: "select",
+      options: [
+        {
+          value: "size_range",
+          label: "Kích thước màn hình",
+          children: [
+            { value: "under_9_inch", label: "Dưới 9 inch (Mini)" },
+            { value: "10_11_inch", label: "Từ 10 - 11 inch" },
+            { value: "over_12_inch", label: "Trên 12 inch (Pro/Ultra)" },
+          ],
+        },
+      ],
+    },
+    {
+      key: "storage",
+      label: "Bộ nhớ trong",
+      type: "checkbox",
+      options: [
+        { value: "64gb", label: "64 GB" },
+        { value: "128gb", label: "128 GB" },
+        { value: "256gb", label: "256 GB" },
+        { value: "512gb", label: "512 GB" },
+      ],
+    },
   ],
+
+  // ==========================================
+  // 4: PHỤ KIỆN / THIẾT BỊ KHÁC
+  // ==========================================
   4: [
-    { key: "material", label: "Chất liệu" },
-    { key: "compatibility", label: "Tương thích" },
+    {
+      key: "material",
+      label: "Chất liệu",
+      type: "select",
+      options: [
+        { value: "silicone", label: "Silicone" },
+        { value: "leather", label: "Da thật / Da PU" },
+        { value: "plastic", label: "Nhựa cứng (PC) / Nhựa dẻo (TPU)" },
+        { value: "metal", label: "Kim loại / Hợp kim nhôm" },
+      ],
+    },
+    {
+      key: "compatibility",
+      label: "Tương thích thiết bị",
+      type: "checkbox",
+      options: [
+        {
+          value: "apple_devices",
+          label: "Thiết bị Apple",
+          children: [
+            { value: "iphone_all", label: "Mọi dòng iPhone" },
+            { value: "ipad_all", label: "Mọi dòng iPad" },
+            { value: "macbook_all", label: "MacBook" },
+          ],
+        },
+        {
+          value: "universal",
+          label: "Dùng chung (Universal)",
+          children: [
+            { value: "type_c", label: "Cổng Type-C" },
+            { value: "bluetooth_universal", label: "Bluetooth 5.0+" },
+          ],
+        },
+      ],
+    },
   ],
 };
 
 const AddProduct = () => {
   const [category, setCategory] = useState([]);
   const [categoryBrand, setCategoryBrand] = useState([]);
-  // useEffect(() => {
-  //   loadCategory();
-  //   loadData();
-  // }, []);
-  // const loadCategory = async () => {
-  //   const res = await axios.get("http://localhost:8080/api/categories");
-  //   setCategory(res.data);
-  // };
-  // const loadData = async () => {
-  //   const res = await axios.get("http://localhost:8080/api/category-brand");
-  //   setCategoryBrand(res.data);
-  // };
+  useEffect(() => {
+    loadCategory();
+    loadData();
+  }, []);
+  const loadCategory = async () => {
+    const res = await axios.get("http://localhost:8080/api/categories");
+    setCategory(res.data);
+  };
+  const loadData = async () => {
+    const res = await axios.get("http://localhost:8080/api/category-brand");
+    setCategoryBrand(res.data);
+  };
 
   const [product, setProduct] = useState({
     product_code: "",

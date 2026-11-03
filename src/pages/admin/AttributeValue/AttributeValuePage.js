@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import AddAttributeValueModal from "../../../components/admin/modals/AddAttributeValueModal";
+import AddAttributeValueModal from "./AddAttributeValueModal";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 const AttributeValuePage = () => {

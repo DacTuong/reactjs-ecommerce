@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import AddAttributeModal from "../../../components/admin/modals/AddAttributeModal";
+import AddAttributeModal from "./AddAttributeModal";
 const Attributes = () => {
   const [attributes, setAttributes] = useState([]);
   const [nameGroup, setNameGroup] = useState("");
