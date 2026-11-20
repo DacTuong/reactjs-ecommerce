@@ -66,19 +66,21 @@ const AddAttributeValueModal = ({
     // if (!validAttributeValue()) {
     //   return;
     // }
-    // console.log(attributeValues);
-    try {
-      await axios.post(
-        "http://localhost:8080/api/attribute-values",
-        attributeValues,
-      );
-      alert("Lưu thành công");
-      // reset form
-      // setBrands([{ name: "", slug: "", brand_image: null, preview: null }]);
-    } catch (error) {
-      console.error(error);
-      alert("Lỗi khi lưu");
-    }
+    console.log(attributeValues);
+
+    // try {
+    //   await axios.post(
+    //     "http://localhost:8080/api/attribute-values",
+    //     attributeValues,
+    //   );
+    //   alert("Lưu thành công");
+    //   // reset form
+    //   // setBrands([{ name: "", slug: "", brand_image: null, preview: null }]);
+    // } catch (error) {
+    //   console.error(error);
+    //   alert("Lỗi khi lưu");
+    // }
+
     // console.log("1. Bắt đầu gửi request");
     // console.log("2. Dữ liệu chuẩn bị gửi:", attributeValues);
 

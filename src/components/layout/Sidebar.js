@@ -209,6 +209,27 @@ const Sidebar = () => {
               </div>
             )}
           </div>
+
+          <div className="nav-item">
+            <div
+              className="nav-link"
+              onClick={() => toggleDropdownID(8)}
+              style={{ cursor: "pointer" }}
+            >
+              <img
+                className="icon-nav"
+                src="https://www.svgrepo.com/show/497144/settings.svg"
+                alt="Settings Icon"
+              />
+              <span className="sidebar-text">Quản lý loai du lieu</span>
+              <span className={`arrow ${openId === 8 ? "rotate" : ""}`}>▾</span>
+            </div>
+            {openId === 8 && (
+              <div className="sub-menu">
+                <Link to="/admin/attribute-type">Danh sách loai du lieu</Link>
+              </div>
+            )}
+          </div>
           <div className="nav-item">
             <a href="#" className="nav-link">
               <img

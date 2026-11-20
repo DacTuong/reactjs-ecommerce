@@ -40,6 +40,8 @@ import AddGroupAttribute from "../pages/admin/group_attribute/AddGroupAttribute"
 import GroupAttribute from "../pages/admin/group_attribute/GroupAttribute";
 import Attributes from "../pages/admin/Attribute/Attributes";
 import AttributeValuePage from "../pages/admin/AttributeValue/AttributeValuePage";
+
+import AttributeType from "../pages/admin/AttributeType/AttributeType";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -96,6 +98,8 @@ const AppRoutes = () => {
           path="group-attributes/:idGroup/attributes/:idAttribute/values"
           element={<AttributeValuePage />}
         />
+
+        <Route path="attribute-type" element={<AttributeType />} />
       </Route>
     </Routes>
   );
