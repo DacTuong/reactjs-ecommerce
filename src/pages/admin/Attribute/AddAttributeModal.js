@@ -2,11 +2,20 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const AddNewAttribute = ({ show, handleClose, idGroup, onSuccess }) => {
-  const [nameGroup, setNameGroup] = useState("");
+  const [attributeStorages, setAttributeStorages] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/attribute-storage")
+      .then((res) => setAttributeStorages(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   const [attributes, setAttributes] = useState([
     {
       name_attribute: "",
       data_type: "",
+      id_storage: "",
       is_filter: 0,
     },
   ]);
@@ -17,6 +26,7 @@ const AddNewAttribute = ({ show, handleClose, idGroup, onSuccess }) => {
       {
         name_attribute: "",
         data_type: "",
+        id_storage: "",
         is_filter: 0,
       },
     ]);
@@ -46,12 +56,6 @@ const AddNewAttribute = ({ show, handleClose, idGroup, onSuccess }) => {
     }
     setAttributes(attributes.filter((_, aIdx) => aIdx !== attributeIdx));
   };
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/group-attributes/${idGroup}/attributes`)
-      .then((res) => setNameGroup(res.data.name_group))
-      .catch((err) => console.log(err));
-  }, [idGroup]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -91,7 +95,6 @@ const AddNewAttribute = ({ show, handleClose, idGroup, onSuccess }) => {
         className="modal-content-custom"
         onClick={(e) => e.stopPropagation()}
       >
-        <h4>Nhóm: {nameGroup}</h4>
         <h5>Thêm mới thuộc tính</h5>
         <form onSubmit={handleSubmit}>
           <div className="border-form">
@@ -104,6 +107,7 @@ const AddNewAttribute = ({ show, handleClose, idGroup, onSuccess }) => {
                 <tr>
                   <th>#</th>
                   <th>Tên thuộc tính</th>
+                  <th>Phân loại thuộc tính</th>
                   <th>Loại dữ liệu</th>
                   <th>Lọc</th>
                   <th>Hành động</th>
@@ -125,6 +129,23 @@ const AddNewAttribute = ({ show, handleClose, idGroup, onSuccess }) => {
                       />
                     </td>
 
+                    <td>
+                      <select
+                        value={attribute.data_type || ""}
+                        onChange={(e) =>
+                          handleChangeDataType(
+                            index,
+
+                            e.target.value,
+                          )
+                        }
+                      >
+                        <option value="">Chọn</option>
+                        {attributeStorages.map((attributeType, i) => (
+                          <option>{attributeType.type_name}</option>
+                        ))}
+                      </select>
+                    </td>
                     <td>
                       <select
                         value={attribute.data_type || ""}

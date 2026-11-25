@@ -2,12 +2,29 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import AddAttributeModal from "./AddAttributeModal";
+import EditAttributeModal from "./EditAttributeModal";
 const Attributes = () => {
   const [attributes, setAttributes] = useState([]);
   const [nameGroup, setNameGroup] = useState("");
+
   const { idGroup } = useParams();
+  const [idAttribute, setIdAttribute] = useState("");
 
   const [showAddAttribute, setShowAddAttribute] = useState(false);
+
+  const [showEditAttribute, setShowEditAttribute] = useState(false);
+
+  // Xử lý khi nhấn nút sửa
+  const handleEditAttribute = (id) => {
+    setIdAttribute(id);
+    setShowEditAttribute(true);
+  };
+
+  // Đóng modal sửa
+  const handleCloseEdit = () => {
+    setIdAttribute("");
+    setShowEditAttribute(false);
+  };
   // Lấy Tên nhóm attribute
   useEffect(() => {
     axios
@@ -19,7 +36,7 @@ const Attributes = () => {
   // Lấy danh sách các attributes
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/api/group-attributes/${idGroup}/attributes`)
+      .get(`http://localhost:8080/api/attribute/group/${idGroup}`)
       .then((res) => setAttributes(res.data))
       .catch((err) => console.log(err));
   }, [idGroup]);
@@ -47,6 +64,14 @@ const Attributes = () => {
           + Thêm thuộc tính
         </button>
       </div>
+
+      <div>
+        <EditAttributeModal
+          show={showEditAttribute}
+          handleClose={() => handleCloseEdit()}
+          idAttribute={idAttribute}
+        />
+      </div>
       <table>
         <thead>
           <tr>
@@ -61,7 +86,12 @@ const Attributes = () => {
               <td>{index + 1}</td>
               <td>{attribute.name_attribute}</td>
               <td>
-                <button>Sửa</button> | <button>Xoá</button> |
+                <button
+                  onClick={() => handleEditAttribute(attribute.id_attribute)}
+                >
+                  Sửa
+                </button>{" "}
+                | <button>Xoá</button> |
                 <Link
                   to={`/admin/group-attributes/${idGroup}/attributes/${attribute.id_attribute}/values`}
                 >

@@ -4,8 +4,8 @@ import React, { useState } from "react";
 const AddAttributeTypeModal = ({ show, handleClose, onSuccess }) => {
   const [newAttributeType, setNewAttributeType] = useState([
     {
-      type_code: "",
-      type_name: "",
+      storage_code: "",
+      storage_name: "",
     },
   ]);
 
@@ -13,8 +13,8 @@ const AddAttributeTypeModal = ({ show, handleClose, onSuccess }) => {
     setNewAttributeType((prev) => [
       ...prev,
       {
-        type_code: "",
-        type_name: "",
+        storage_code: "",
+        storage_name: "",
       },
     ]);
   };
@@ -52,7 +52,7 @@ const AddAttributeTypeModal = ({ show, handleClose, onSuccess }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/attribute-type",
+        "http://localhost:8080/api/attribute-storage",
         newAttributeType,
       );
 
@@ -60,16 +60,23 @@ const AddAttributeTypeModal = ({ show, handleClose, onSuccess }) => {
 
       setNewAttributeType([
         {
-          type_code: "",
-          type_name: "",
+          storage_code: "",
+          storage_name: "",
         },
       ]);
 
       if (onSuccess) onSuccess();
       handleClose();
     } catch (error) {
-      const message = error.response?.data?.message;
-      alert(message || "Có lỗi xảy ra");
+      // const message = error.response?.data?.message;
+      // alert(message || "Có lỗi xảy ra");
+
+      const data = error.response?.data;
+      const message =
+        typeof data === "string"
+          ? data
+          : data?.message || error.message || "Có lỗi xảy ra";
+      console.log(message);
     }
   };
 
@@ -107,11 +114,11 @@ const AddAttributeTypeModal = ({ show, handleClose, onSuccess }) => {
                     <td>
                       <input
                         placeholder="Nhập mã thuộc tính ví dụ NORMAL"
-                        value={attributeType.type_code}
+                        value={attributeType.storage_code}
                         onChange={(e) =>
                           handleChangeAttributeTypeValue(
                             index,
-                            "type_code",
+                            "storage_code",
                             e.target.value,
                           )
                         }
@@ -120,11 +127,11 @@ const AddAttributeTypeModal = ({ show, handleClose, onSuccess }) => {
                     <td>
                       <input
                         placeholder="Nhập tên thuộc tính ví dụ Bảng thường"
-                        value={attributeType.type_name}
+                        value={attributeType.storage_name}
                         onChange={(e) =>
                           handleChangeAttributeTypeValue(
                             index,
-                            "type_name",
+                            "storage_name",
                             e.target.value,
                           )
                         }

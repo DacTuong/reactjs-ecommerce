@@ -41,7 +41,7 @@ import GroupAttribute from "../pages/admin/group_attribute/GroupAttribute";
 import Attributes from "../pages/admin/Attribute/Attributes";
 import AttributeValuePage from "../pages/admin/AttributeValue/AttributeValuePage";
 
-import AttributeType from "../pages/admin/AttributeType/AttributeType";
+import AttributeStorage from "../pages/admin/AttributeStorage/AttributeStorage";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -99,7 +99,7 @@ const AppRoutes = () => {
           element={<AttributeValuePage />}
         />
 
-        <Route path="attribute-type" element={<AttributeType />} />
+        <Route path="attribute-type" element={<AttributeStorage />} />
       </Route>
     </Routes>
   );

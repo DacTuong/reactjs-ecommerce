@@ -1,9 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import AddAttributeTypeModal from "./AddAttributeTypeModal";
+import AddAttributeTypeModal from "./AddAttributeStorageModal";
+import axios from "axios";
 
 const AttributeType = () => {
   const [showAddAttributeType, setShowAddAttributeType] = useState(false);
+
+  const [attributeTypes, setAttributeTypes] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/api/attribute-storage")
+      .then((res) => setAttributeTypes(res.data))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div>
       <div className="breadcrum">
@@ -30,22 +41,16 @@ const AttributeType = () => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th>1</th>
-              <th>NORMAL</th>
-              <th>Bình thường</th>
-              <th>
-                <button>Sửa</button> || <button>Xóa</button>
-              </th>
-            </tr>
-            <tr>
-              <th>1</th>
-              <th>NORMAL</th>
-              <th>Bình thường</th>
-              <th>
-                <button>Sửa</button> || <button>Xóa</button>
-              </th>
-            </tr>
+            {attributeTypes.map((data, index) => (
+              <tr>
+                <th>{index + 1}</th>
+                <th>{data.storage_code}</th>
+                <th>{data.storage_name}</th>
+                <th>
+                  <button>Sửa</button> || <button>Xóa</button>
+                </th>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
