@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 const EditAttributeModal = ({ show, handleClose, idAttribute }) => {
-  const [infoAttribute, setInfoAttribute] = useState({
+  const [attribute, setAttribute] = useState({
     id_attribute: "",
     name_attribute: "",
     input_type: "",
@@ -25,19 +25,7 @@ const EditAttributeModal = ({ show, handleClose, idAttribute }) => {
       .get(`http://localhost:8080/api/attribute/${idAttribute}`)
       .then((res) => {
         // console.log("Dữ liệu API:", res.data);
-        setInfoAttribute(res.data);
-      })
-      .catch((err) => console.log("Lỗi API:", err));
-  }, [show, idAttribute]);
-
-  useEffect(() => {
-    if (!show || !idAttribute) return;
-
-    axios
-      .get(`http://localhost:8080/api/attribute/${idAttribute}`)
-      .then((res) => {
-        // console.log("Dữ liệu API:", res.data);
-        setInfoAttribute(res.data);
+        setAttribute(res.data);
       })
       .catch((err) => console.log("Lỗi API:", err));
   }, [show, idAttribute]);
@@ -52,6 +40,34 @@ const EditAttributeModal = ({ show, handleClose, idAttribute }) => {
       })
       .catch((err) => console.log("Lỗi API:", err));
   }, [show]);
+
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    if (!attribute.name_attribute.trim()) {
+      alert(`Vui lòng nhập tên thuộc tính`);
+      return;
+    }
+    if (!attribute.input_type) {
+      alert(`Vui lòng chọn loại dữ liệu`);
+      return;
+    }
+    if (!attribute.id_storage) {
+      alert("Vui lòng chọn nguồn dữ liệu");
+      return;
+    }
+
+    axios
+      .put(`http://localhost:8080/api/attribute/${idAttribute}`, attribute)
+      .then((res) => {
+        setAttribute(res.data);
+      })
+      .catch((error) => {
+        console.error(error.response?.data);
+        alert(error.response?.data || "Có lỗi xảy ra");
+      });
+  };
+
   if (!show) return null;
 
   return (
@@ -60,9 +76,9 @@ const EditAttributeModal = ({ show, handleClose, idAttribute }) => {
         className="modal-content-custom"
         onClick={(e) => e.stopPropagation()}
       >
-        <h4>Chỉnh sửa thuộc tính :{idAttribute}</h4>
+        <h4>Chỉnh sửa thuộc tính: {attribute.name_attribute}</h4>
 
-        <form>
+        <form onSubmit={handleUpdate}>
           <div className="border-form">
             <table className="attribute-table">
               <thead>
@@ -77,17 +93,42 @@ const EditAttributeModal = ({ show, handleClose, idAttribute }) => {
 
               <tbody>
                 <tr>
-                  <td>{infoAttribute.name_attribute}</td>
+                  <td>
+                    <input
+                      value={attribute.name_attribute || ""}
+                      onChange={(e) =>
+                        setAttribute({
+                          ...attribute,
+                          name_attribute: e.target.value,
+                        })
+                      }
+                    />
+                  </td>
 
-                  <td>{infoAttribute.input_type}</td>
+                  <td>
+                    <select
+                      value={attribute.input_type || ""}
+                      onChange={(e) =>
+                        setAttribute({
+                          ...attribute,
+                          input_type: e.value,
+                        })
+                      }
+                    >
+                      <option value="">Chọn</option>
+                      <option value="text">Text</option>
+                      <option value="number">Number</option>
+                      <option value="check-box">Checkbox</option>
+                    </select>
+                  </td>
 
                   <td>
                     <select
                       name="id_storage"
-                      value={infoAttribute.id_storage || ""}
+                      value={attribute.id_storage || ""}
                       onChange={(e) =>
-                        setInfoAttribute({
-                          ...infoAttribute,
+                        setAttribute({
+                          ...attribute,
                           id_storage: e.target.value,
                         })
                       }
@@ -105,9 +146,31 @@ const EditAttributeModal = ({ show, handleClose, idAttribute }) => {
                     </select>
                   </td>
 
-                  <td>{infoAttribute.is_filterable === 1 ? "Có" : "Không"}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={attribute.is_filterable === 1}
+                      onChange={(e) =>
+                        setAttribute({
+                          ...attribute,
+                          is_filterable: e.target.checked ? 1 : 0,
+                        })
+                      }
+                    />
+                  </td>
 
-                  <td>{infoAttribute.is_variant === 1 ? "Có" : "Không"}</td>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={attribute.is_variant === 1}
+                      onChange={(e) =>
+                        setAttribute({
+                          ...attribute,
+                          is_variant: e.target.checked ? 1 : 0,
+                        })
+                      }
+                    />
+                  </td>
                 </tr>
               </tbody>
             </table>
